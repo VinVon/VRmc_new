@@ -108,7 +108,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener,
     private PrescriptionFragment prescriptionFragment = PrescriptionFragment.newInstance();
     private ContentFragment contentFragment = ContentFragment.newInstance();
     private String  UserId;
-    private int Fragmentnumber = 1;
+    private int Fragmentnumber = 2;
     @Override
     protected void onStart() {
         super.onStart();
