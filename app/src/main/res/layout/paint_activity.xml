@@ -147,7 +147,7 @@
             android:text="xxxxxxxxxxx"/>
     </LinearLayout>
     <RadioGroup
-        android:checkedButton="@+id/btn1"
+        android:checkedButton="@+id/btn2"
 android:visibility="gone"
         android:gravity="center"
         android:layout_below="@+id/action_three"
