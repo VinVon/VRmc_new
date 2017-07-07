@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/list_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:text="2017-21-21"
+            android:textColor="@color/base_red" />
+        <TextView
+            android:id="@+id/list_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="进行中"
+            android:textColor="@color/base_red" />
+    </RelativeLayout>
+   <RelativeLayout
+       android:background="@drawable/bg_paint_item"
+       android:layout_width="match_parent"
+       android:layout_margin="12dp"
+       android:layout_height="80dp">
+        <RelativeLayout
+            android:id="@+id/re_line"
+            android:weightSum="100"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                android:layout_weight="10"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="医生 : " />
+            <TextView
+                android:layout_weight="40"
+                android:id="@+id/list_doctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="医生" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_weight="10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="类型 : " />
+            <TextView
+                android:layout_weight="40"
+                android:id="@+id/list_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线上" />
+            </LinearLayout>
+        </RelativeLayout>
+       <LinearLayout
+           android:layout_marginTop="10dp"
+           android:layout_marginLeft="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/re_line">
+           <TextView
+               android:textColor="@color/black"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:text="病症 : " />
+           <TextView
+               android:id="@+id/list_content"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:text="fsdafsdfsfsdfsdfsdfsdf" />
+       </LinearLayout>
+   </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_centerVertical="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/mlist_paly1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/mlist_paly"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/logo" />
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/play"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/mlist_name"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            android:textSize="16dp"
+            android:layout_toRightOf="@+id/mlist_paly1"
+            android:text="dasdasdad" />
+
+        <TextView
+            android:textSize="12dp"
+            android:id="@+id/mlist_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_toRightOf="@+id/mlist_paly1"
+            android:text="dasdasdad" />
+
+        <TextView
+            android:id="@+id/mlist_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="55dp"
+            android:textSize="12dp"
+            android:layout_toRightOf="@+id/mlist_paly1"
+            android:text="dasdasdad" />
+    </RelativeLayout>
+
+</LinearLayout>

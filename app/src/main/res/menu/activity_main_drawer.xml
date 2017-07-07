@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"
+        android:id="@+id/g1">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@mipmap/revise"
+            android:title="修改密码"/>
+    </group>
+    <group android:id="@+id/g2">
+        <item
+            android:id="@+id/nav_upversion"
+            android:icon="@mipmap/up"
+            android:title="版本升级"/>
+    </group>
+    <group android:id="@+id/g3">
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@mipmap/close"
+            android:title="注销"/>
+    </group>
+    <group android:id="@+id/g4"
+        >
+        <item
+            
+            android:id="@+id/nav_kefu"
+            android:icon="@mipmap/phone"
+            android:title="联系客服 : 400-166-7866"/>
+    </group>
+</menu>
