@@ -34,7 +34,7 @@
             android:singleLine="true"
             android:maxLength="11"
             android:imeOptions="actionSearch"
-            android:hint="搜索你想要的"
+            android:hint="查询患者"
             android:layout_centerVertical="true"
             android:gravity="left|center_vertical"
             android:textSize="13sp"
@@ -44,7 +44,7 @@
         android:id="@+id/img_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="100dp"
         android:background="@mipmap/logo"
         android:layout_centerHorizontal="true"/>
 
@@ -90,5 +90,73 @@
             android:text="VRMC"
             android:textSize="16dp"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/tv_vrromm">
+       <LinearLayout
+           android:gravity="center"
+           android:layout_weight="1"
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_margin="10dp"
+               android:paddingTop="20dp"
+               android:background="@drawable/bg_line"
+               android:gravity="center"
+               android:layout_weight="1"
+               android:drawablePadding="10dp"
+               android:layout_width="0dp"
+               android:drawableTop="@mipmap/up"
+               android:layout_height="match_parent"
+               android:text="增加患者"
+               android:textColor="@color/black"/>
+           <TextView
+               android:layout_margin="10dp"
+               android:paddingTop="20dp"
+               android:background="@drawable/bg_line"
+               android:drawableTop="@mipmap/up"
+               android:drawablePadding="10dp"
+               android:gravity="center"
+               android:layout_weight="1"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:text="查询"
+               android:textColor="@color/black"/>
+       </LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_margin="10dp"
+                android:paddingTop="20dp"
+                android:background="@drawable/bg_line"
+                android:drawableTop="@mipmap/up"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="VR内容"
+                android:textColor="@color/black"/>
+            <TextView
+                android:layout_margin="10dp"
+                android:paddingTop="20dp"
+                android:background="@drawable/bg_line"
+                android:drawableTop="@mipmap/up"
+                android:drawablePadding="10dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="手册"
+                android:textColor="@color/black"/>
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
