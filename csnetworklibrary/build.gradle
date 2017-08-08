@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    okhttp_version = "3.4.1"
+    retrofit_version = "2.1.0"
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':cscommonlibrary')
+    compile 'com.kaopiz:kprogresshud:1.0.5'
+    compile "com.squareup.retrofit2:retrofit:${retrofit_version}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofit_version}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${retrofit_version}"
+    compile "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    compile "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
+    compile 'com.orhanobut:logger:1.11'
+    compile "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
+    //
+    compile 'com.trello:rxlifecycle:0.8.0'
+    compile 'com.trello:rxlifecycle-android:0.8.0'
+    compile 'com.trello:rxlifecycle-components:0.8.0'
+}
