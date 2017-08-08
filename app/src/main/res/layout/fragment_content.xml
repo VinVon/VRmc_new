@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <vr.promulgator.com.newvrmc.utils.PullToRefreshSwipeLayout
+    <com.medvision.com.vrmc.utils.PullToRefreshSwipeLayout
         android:id="@+id/swipefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -13,5 +13,5 @@
         android:layout_below="@+id/action_three"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
-    </vr.promulgator.com.newvrmc.utils.PullToRefreshSwipeLayout>
+    </com.medvision.com.vrmc.utils.PullToRefreshSwipeLayout>
 </LinearLayout>

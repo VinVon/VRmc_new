@@ -21,16 +21,25 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/head_name"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dasdadsada"/>
             <TextView
+                android:visibility="gone"
+                android:id="@+id/head_phone"
                 android:textSize="16dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dasdadsada"/>
+            <TextView
+                android:textSize="16sp"
                 android:id="@+id/head_hosname"
                 android:textColor="@color/black"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dasdadsada"/>

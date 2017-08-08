@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/item_history"
+    android:layout_height="160dp">
+    <RelativeLayout
+        android:id="@+id/history_rl"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="30dp">
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10月14号"
+            android:id="@+id/item_history_date"/>
+
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未付款"
+            android:id="@+id/item_history_status"/>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/item_history_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_marginRight="100dp"
+        android:layout_below="@+id/history_rl"
+        android:layout_marginLeft="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:text="范德萨发范德萨发发呆干啥范德萨发发呆干啥范德萨发发呆干啥范德萨发发呆干啥发呆干啥"/>
+    <TextView
+        android:id="@+id/item_history_contents"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/item_history_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="包含2个多媒体内容"/>
+</RelativeLayout>

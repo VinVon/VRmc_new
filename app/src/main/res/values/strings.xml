@@ -1,6 +1,15 @@
 <resources>
-    <string name="app_name">心景治疗师</string>
+    <string name="app_name">心景VRMC</string>
     <string name="companyName">心景科技</string>
     <string name="clear">清屏</string>
-
+   <!-- 增加患者-->
+    <string name="hospital">根据医生账户关联的医院自动</string>
+    <string name="medical_number">请输入患者病历号</string>
+    <string name="patient_name">请输入患者姓名</string>
+    <string name="born_date">参考,必输</string>
+    <string name="phone_number">请输入患者手机号</string>
+    <string name="marry">参考,非必输</string>
+    <string name="medical_card">手工录入,非必输</string>
+    <string name="phone_company">4001667866</string>
+    <string name="phone_companys">如有问题,请联系客服咨询:4001667866</string>
 </resources>

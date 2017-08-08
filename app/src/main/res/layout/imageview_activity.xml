@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_base_title_bar"></include>
+
+    <ScrollView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/base_header_rl">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/middle_space">
+
+                <TextView
+                    android:id="@+id/vr_video_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/middle_text_size"
+                    android:textStyle="bold"
+                    tools:text="lajsdfljasl辣椒是对方理解啊算了说短发十分你阿訇哈苏欧" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/middle_space">
+
+                    <TextView
+                        android:id="@+id/vr_video_play_times_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/small_space"
+                        tools:text="23" />
+
+                    <TextView
+                        android:id="@+id/vr_video_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        tools:text="2016-10-29" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/middle_space">
+
+                    <TextView
+                        android:id="@+id/vr_video_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/middle_text_size"
+                        tools:text="手机打发饿哦亲我也人" />
+
+                    <ImageButton
+                        android:id="@+id/vr_video_collect_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/item_therapy_bg"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/vr_video_content_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <WebView
+        android:layout_above="@+id/tv_add"
+        android:id="@+id/web_view"
+        android:layout_below="@+id/base_header_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="加入"
+        android:textColor="@color/white" />
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	android:id="@+id/collection_rl"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="110dp">
+
+	<ImageView
+		android:layout_alignParentRight="true"
+		android:layout_width="100dp"
+		android:layout_height="80dp"
+		android:id="@+id/list_item_collection_iv"
+		android:layout_marginEnd="16dp"
+		android:layout_marginRight="16dp"
+		android:background="@mipmap/default_img"
+		android:layout_marginTop="20dp"
+		android:contentDescription="@null"
+		android:scaleType="fitXY"/>
+
+	<TextView
+		android:layout_alignParentLeft="true"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/list_item_collection_title_tv"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="20dp"
+		android:layout_toLeftOf="@+id/list_item_collection_iv"
+		android:layout_marginLeft="16dp"
+		tools:text="来开始减肥了爱丽丝来开始减肥了爱丽丝"
+		android:paddingRight="10dp"
+		android:maxLines="2" />
+
+	<TextView
+		android:layout_alignParentLeft="true"
+		android:layout_above="@+id/item_line"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="10dp"
+		android:id="@+id/list_item_collection_date_tv"
+		android:layout_marginLeft="16dp"
+		tools:text="2016-10-10"/>
+	<LinearLayout
+		android:orientation="horizontal"
+		android:id="@+id/item_line"
+		android:layout_width="match_parent"
+		android:layout_height="2px"
+		android:background="@color/gray"
+		android:layout_alignParentBottom="true"></LinearLayout>
+</RelativeLayout>

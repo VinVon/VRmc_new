@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.medvision.vrmc.view.LoveLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#f5f5f5"
+    android:id="@+id/love_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/activity_base_title_bar"></include>
+    <include layout="@layout/query_patient_taint"></include>
+</com.medvision.vrmc.view.LoveLayout>

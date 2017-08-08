@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'me.tatarka:gradle-retrolambda:3.2.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "io.realm:realm-gradle-plugin:2.2.2"//添加这一行
@@ -20,7 +20,13 @@ allprojects {
         mavenCentral()
     }
 }
-
+ext {
+    compileSdkVersion = 24
+    buildToolsVersion = "25.0.0"
+    minSdkVersion = 16
+    targetSdkVersion = 24
+    androidSuppportVersion = "25.0.0"
+}
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

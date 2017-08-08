@@ -4,8 +4,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f0f0f0"
-    tools:context="vr.promulgator.com.vrmc.vr.promulgator.com.newvrmc.MainActivity">
+    android:background="#f5f5f5"
+    >
     <RelativeLayout
         android:id="@+id/global_search_action_bar_rl"
         android:layout_width="match_parent"
@@ -22,7 +22,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:background="@mipmap/more"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:text="心景VRMC"
+            android:layout_centerInParent="true"/>
         <Button
+            android:visibility="gone"
             android:id="@+id/tab_bar_keyword_et"
             android:layout_width="match_parent"
             android:layout_height="34dp"
@@ -48,16 +56,6 @@
         android:background="@mipmap/logo"
         android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:layout_below="@+id/tv_main_welcome"
-        android:id="@+id/tv_vrromm"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="欢迎使用心景"
-        android:textColor="@color/white_alpha_percent_45"
-        android:layout_centerInParent="true"/>
-
     <LinearLayout
         android:layout_below="@+id/img_main"
         android:id="@+id/tv_main_welcome"
@@ -76,6 +74,7 @@
         android:textSize="16dp"
         />
         <TextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TM"
@@ -92,70 +91,79 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_below="@+id/tv_vrromm">
+        android:layout_below="@+id/tv_main_welcome">
        <LinearLayout
            android:gravity="center"
-           android:layout_weight="1"
            android:layout_width="match_parent"
-           android:layout_height="0dp"
+           android:layout_height="wrap_content"
            android:orientation="horizontal">
            <TextView
-               android:layout_margin="10dp"
+               android:layout_marginRight="2dp"
+               android:layout_marginBottom="2dp"
+               android:id="@+id/add_patient"
                android:paddingTop="20dp"
-               android:background="@drawable/bg_line"
+               android:paddingBottom="20dp"
+               android:background="@color/white"
                android:gravity="center"
                android:layout_weight="1"
                android:drawablePadding="10dp"
                android:layout_width="0dp"
-               android:drawableTop="@mipmap/up"
-               android:layout_height="match_parent"
-               android:text="增加患者"
+               android:drawableTop="@mipmap/man"
+               android:layout_height="wrap_content"
+               android:text="我的患者"
                android:textColor="@color/black"/>
            <TextView
-               android:layout_margin="10dp"
+               android:layout_marginLeft="2dp"
+               android:layout_marginBottom="2dp"
+               android:id="@+id/vr_content"
                android:paddingTop="20dp"
-               android:background="@drawable/bg_line"
-               android:drawableTop="@mipmap/up"
+               android:paddingBottom="20dp"
+               android:background="@color/white"
+               android:drawableTop="@mipmap/vr"
                android:drawablePadding="10dp"
                android:gravity="center"
                android:layout_weight="1"
                android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:text="查询"
+               android:layout_height="wrap_content"
+               android:text="VR场景"
                android:textColor="@color/black"/>
        </LinearLayout>
         <LinearLayout
             android:gravity="center"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_margin="10dp"
+                android:layout_marginRight="2dp"
+                android:paddingBottom="20dp"
+                android:id="@+id/vr_handbook"
                 android:paddingTop="20dp"
-                android:background="@drawable/bg_line"
-                android:drawableTop="@mipmap/up"
+                android:background="@color/white"
+                android:drawableTop="@mipmap/book"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="VR内容"
+                android:layout_height="wrap_content"
+                android:text="手册"
                 android:textColor="@color/black"/>
             <TextView
-                android:layout_margin="10dp"
+                android:layout_marginLeft="2dp"
+                android:id="@+id/vr_more"
                 android:paddingTop="20dp"
-                android:background="@drawable/bg_line"
-                android:drawableTop="@mipmap/up"
+                android:paddingBottom="20dp"
+                android:background="@color/white"
+                android:drawableTop="@mipmap/book"
                 android:drawablePadding="10dp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="手册"
+                android:layout_height="wrap_content"
+                android:text="关于心景"
                 android:textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>

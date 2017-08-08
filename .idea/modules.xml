@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/VRmc.iml" filepath="$PROJECT_DIR$/VRmc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cscommonlibrary/cscommonlibrary.iml" filepath="$PROJECT_DIR$/cscommonlibrary/cscommonlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/csnetworklibrary/csnetworklibrary.iml" filepath="$PROJECT_DIR$/csnetworklibrary/csnetworklibrary.iml" />
     </modules>
   </component>
 </project>
