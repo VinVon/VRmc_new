@@ -1,5 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single"
+        android:id="@+id/g0">
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@mipmap/basic"
+            android:title="基本信息"/>
+    </group>
+    <group android:checkableBehavior="single"
         android:id="@+id/g1">
         <item
             android:id="@+id/nav_camera"
@@ -14,11 +21,17 @@
     </group>
     <group android:id="@+id/g3">
         <item
+            android:id="@+id/nav_about"
+            android:icon="@mipmap/about"
+            android:title="关于心景"/>
+    </group>
+    <group android:id="@+id/g4">
+        <item
             android:id="@+id/nav_exit"
             android:icon="@mipmap/close"
             android:title="注销"/>
     </group>
-    <group android:id="@+id/g4"
+    <group android:id="@+id/g5"
         >
         <item
             

@@ -3,6 +3,9 @@
  */
 package com.medvision.vrmc.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
@@ -26,6 +29,13 @@ public class HomeContent implements Serializable{
 	private int frequency;
 	private int period;
 	private int periodUnit;
+
+	public HomeContent() {
+	}
+
+
+
+
 
 	public int getFrequency() {
 		return frequency;
@@ -146,4 +156,5 @@ public class HomeContent implements Serializable{
 	public void setIsCollected(int isCollected) {
 		this.isCollected = isCollected;
 	}
+
 }

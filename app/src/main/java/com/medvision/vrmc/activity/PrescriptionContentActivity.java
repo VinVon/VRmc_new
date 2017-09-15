@@ -2,7 +2,6 @@ package com.medvision.vrmc.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -31,6 +30,7 @@ import com.medvision.vrmc.imp.QueryPrescription;
 import com.medvision.vrmc.presenter.AddTaskPresenter;
 import com.medvision.vrmc.presenter.QueryPrescriptionPresenter;
 import com.medvision.vrmc.presenter.UserListPresenter;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.SpUtils;
 
 
@@ -107,7 +107,7 @@ public class PrescriptionContentActivity extends BaseActivity implements QueryPr
         Map<String, Object> priArgs = new HashMap<>();
         priArgs.put("prescriptionId", PrescritionId);
         priArgs.put("token", token);
-//        Log.e("0000000", token + "  " + id);
+//        MyLog.e("0000000", token + "  " + id);
         queryPrescriptionPresenter.setMap(priArgs);
         queryPrescriptionPresenter.getPrescriptionlist();
 
@@ -245,7 +245,7 @@ public class PrescriptionContentActivity extends BaseActivity implements QueryPr
                                 adds.put("type", id.getContent_type());
                                 adds.put("userId", userid);
                                 adds.put("prescriptionContentId", id.getId());
-                                Log.e("-----", "type:" + id.getContent_type() + "userId:" + userid + "prescriptionContentId" + id.getId());
+                                MyLog.e("-----", "type:" + id.getContent_type() + "userId:" + userid + "prescriptionContentId" + id.getId());
                                 addp.addTask(adds);
                             }
                         })

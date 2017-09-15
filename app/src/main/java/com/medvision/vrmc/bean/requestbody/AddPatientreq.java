@@ -15,6 +15,15 @@ public class AddPatientreq extends BaseReq{
     private int educationDegree;
     private String medicalInsuranceCardNo;
     private String diseaseId;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getRoomId() {
         return remark;

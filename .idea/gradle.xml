@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cscommonlibrary" />
             <option value="$PROJECT_DIR$/csnetworklibrary" />
+            <option value="$PROJECT_DIR$/multi-image-selector" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

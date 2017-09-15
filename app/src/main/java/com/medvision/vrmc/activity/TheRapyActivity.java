@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +36,7 @@ import com.medvision.vrmc.bean.requestbody.HomeContentReq;
 import com.medvision.vrmc.imp.EndlessRecyclerOnScrollListener;
 import com.medvision.vrmc.imp.MyClick;
 import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.view.Navigation;
 import com.squareup.picasso.Picasso;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
@@ -105,10 +106,10 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
     @Override
     protected void onResume() {
         super.onResume();
-//        Log.e("-----TheRapy","onResume");
+//        MyLog.e("-----TheRapy","onResume");
 //        if (homes.size() !=0){
 //            for (int i = 0; i <4 ; i++) {
-//                Log.e("-----TheRapy",homes.get(i).getIsCollected()+"集");
+//                MyLog.e("-----TheRapy",homes.get(i).getIsCollected()+"集");
 //            }
 //        }
     }
@@ -120,7 +121,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
         setContentView(R.layout.activity_rherapy);
         ButterKnife.bind(this);
         RxBus.getDefault().register(this);
-        Log.e("-----TheRapy", "onResume");
+        MyLog.e("-----TheRapy", "onResume");
         contentService = HttpMethods.getInstance().getClassInstance(ContentService.class);
         types = getIntent().getIntExtra("types", 0);//1为开处方选择，0为收藏
         if (types == 1) {
@@ -131,7 +132,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
         diseaseId = getIntent().getStringExtra("diseaseID");
         therapyId = getIntent().getStringExtra("therapyID");
         String name = getIntent().getStringExtra("name");
-        Log.e("--------TheRapyActivity", diseaseId + "---" + therapyId);
+        MyLog.e("--------TheRapyActivity", diseaseId + "---" + therapyId);
         if (types == 0) {
             Navigation.getInstance(TheRapyActivity.this).setBack().setTitle(name);
         } else {
@@ -171,10 +172,10 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
 //
         } else {
             if (o.is()) {
-                Log.e("-----shoucang", "收藏" + Pos);
+                MyLog.e("-----shoucang", "收藏" + Pos);
                 homes.get(Pos).setIsCollected(1);
             } else {
-                Log.e("-----shoucang", "取消收藏" + Pos);
+                MyLog.e("-----shoucang", "取消收藏" + Pos);
                 homes.get(Pos).setIsCollected(0);
             }
         }
@@ -273,7 +274,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
                 h.setSortName(sortName);
                 h.setSortOrder(sortOrder);
                 h.setKeyword(keyword);
-                Log.e("----jiazai", "page=" + page);
+                MyLog.e("----jiazai", "page=" + page);
                 simulateLoadMoreData(h);
             }
         });
@@ -345,7 +346,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
 
         public void setmDatas(List<HomeContent> mDatas) {
             this.mDatas = mDatas;
-            Log.e("----adaopter", mDatas.get(Pos).getIsCollected() + "");
+            MyLog.e("----adaopter", mDatas.get(Pos).getIsCollected() + "");
             this.notifyDataSetChanged();
         }
 
@@ -381,7 +382,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
                 @Override
                 public void onClick(View v) { //跳转疗法详情
 //                    myClick.onItemClick(holder.rl,position);
-                    Log.e("------收藏relayout", mDatas.get(position).getId());
+                    MyLog.e("------收藏relayout", mDatas.get(position).getId());
                     Pos = position;
 //                    if (mDatas.get(position).getType() == 1) {
 //                        Intent intent1 = new Intent(TheRapyActivity.this, VrVideoActivity.class);
@@ -390,7 +391,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
 //                        intent1.putExtra("types", types);//判断是iamgeButton收藏还是选择
 //                        startActivityForResult(intent1, REQST_VIDEO);
 //                    } else if (mDatas.get(position).getType() == 2) {
-//                        Log.e("------收藏relayout", "2");
+//                        MyLog.e("------收藏relayout", "2");
 //                    } else if (mDatas.get(position).getType() == 3) {
                     if (types == 1) {
                         Intent intent1 = new Intent(TheRapyActivity.this, ImageViewActivity.class);
@@ -410,7 +411,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
             holder.tv2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("---------sc", "选择收藏");
+                    MyLog.e("---------sc", "选择收藏");
                     if (holder.tv2.isSelected()) {
                         holder.tv2.setSelected(false);
                         mDatas.get(position).setIsselect(false);
@@ -432,7 +433,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
                         holder.tv2.setSelected(true);
                         mDatas.get(position).setIsselect(true);
                         if (types == 1) {//
-                            Log.e("----场景", "场景界面的选着");
+                            MyLog.e("----场景", "场景界面的选着");
                             RxBus.getDefault().post(mDatas.get(position));
                             RxBus.getDefault().post(new BusArea(mDatas.get(position).getId(), mDatas.get(position).isselect()));
                             arrayList.add(mDatas.get(position).getId());

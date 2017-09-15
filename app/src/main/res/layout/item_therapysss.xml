@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/swipe"
+    swipe:drag_edge="right"
+    android:layout_width="match_parent"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:background="#FF5534"
+        android:tag="Bottom3"
+        >
+        <TextView
+            android:id="@+id/delete"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="删除"
+            android:textColor="@color/white"></TextView>
+    </LinearLayout>
+    <!-- Bottom View Start-->
+
+    <RelativeLayout
+        android:id="@+id/item_therapy_tl"
+        android:touchscreenBlocksFocus="true"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <RelativeLayout
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_therapy_img"
+            android:layout_toLeftOf="@+id/item_therapy_txt"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/item_therapy_title"
+                android:layout_width="match_parent"
+                android:text="催眠方案1"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_below="@+id/item_therapy_title"
+                android:textColor="@color/gray"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:id="@+id/item_therapy_zhouqi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/red"
+                android:text="$ 50"
+                android:layout_marginBottom="15dp"
+                android:id="@+id/item_therapy_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <ImageButton
+                android:visibility="gone"
+            android:background="@mipmap/cycle"
+            android:id="@+id/item_therapy_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/item_therapy_img"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:background="@mipmap/default_img"
+            android:layout_marginLeft="13dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="13dp" />
+    </RelativeLayout>
+    <!-- Bottom View End-->
+</com.daimajia.swipe.SwipeLayout>

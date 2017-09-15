@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +30,7 @@ import com.medvision.vrmc.bean.requestbody.CollectionListReq;
 import com.medvision.vrmc.network.ContentService;
 import com.medvision.vrmc.network.UserService;
 import com.medvision.vrmc.utils.Constant;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.SpUtils;
 import com.medvision.vrmc.view.Navigation;
 import com.squareup.picasso.Picasso;
@@ -60,6 +61,7 @@ public class CollectionActivity extends AppCompatActivity {
     private int currentPage = 1;
     private MyAdapter mAdapter;
     private List<HomeContent> data = new ArrayList<>();
+    private ArrayList<HomeContent> schemes = new ArrayList<>();
     private final int REQST_add = 101;
     private final int REQST_IMG = 103;
     private final int REQST_OK = 102;
@@ -74,7 +76,7 @@ public class CollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collection);
         ButterKnife.bind(this);
         RxBus.getDefault().register(this);
-        types = getIntent().getIntExtra("types", 0);//1为开处方选择，0为收藏
+        types = getIntent().getIntExtra("types", 0);//1为开处方选择，0为收藏,2为 自制方案
         if (types == 1) {
             arrayList = getIntent().getStringArrayListExtra("datalist");
             Navigation.getInstance(this).setBack().setTitle("常用场景").setRight("完成", new View.OnClickListener() {
@@ -86,7 +88,19 @@ public class CollectionActivity extends AppCompatActivity {
                     finish();
                 }
             });
-        } else {
+        }else if (types == 2){
+            schemes = (ArrayList<HomeContent>) getIntent().getSerializableExtra("list");
+            Navigation.getInstance(this).setTitle("常用场景").setBack().setRight("完成", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("scheme",schemes);
+                    setResult(98,intent);
+                    finish();
+                }
+            });
+        }
+        else {
             Navigation.getInstance(this).setTitle("常用场景").setBack();
         }
         mUserService = HttpMethods.getInstance().getClassInstance(UserService.class);
@@ -127,6 +141,7 @@ public class CollectionActivity extends AppCompatActivity {
                 .subscribe(new ProgressSubscriber<List<HomeContent>>(this, o -> {
 
                             setViewData(o, loadType);
+
 //							mAdapter.setData(o);
                         })
                 );
@@ -187,6 +202,15 @@ public class CollectionActivity extends AppCompatActivity {
                         }
                     }
                 }
+            }else  if (types == 2){
+                for (int i = 0; i < collections.size(); i++) {
+                    HomeContent homeContent = collections.get(i);
+                    for (int j = 0; j < schemes.size(); j++) {
+                        if (homeContent.getId().equals(schemes.get(j).getId())) {//d收藏界面，请求的数据与，添加处方已选择疗法比较,刷新已选着处方的界面
+                            homeContent.setIsselect(true);
+                        }
+                    }
+                }
             }
             mAdapter.setData(collections);
             mCollectionRv.refreshComplete();
@@ -242,7 +266,15 @@ public class CollectionActivity extends AppCompatActivity {
                 } else {
                     holder.tv2.setSelected(false);
                 }
-            } else {
+            } else if (types == 2) {//types == 2时，我的方案界面过来的
+                holder.tv2.setBackground(getResources().getDrawable(R.drawable.item_therapy_bgs));
+                if (collection.isselect()) {
+                    holder.tv2.setSelected(true);
+                } else {
+                    holder.tv2.setSelected(false);
+                }
+            }
+            else {
                 holder.tv2.setBackground(getResources().getDrawable(R.drawable.item_therapy_bg));
                 if (collection.getIsCollected() == 0) {//0 为没有收藏
                     holder.tv2.setSelected(false);
@@ -254,7 +286,7 @@ public class CollectionActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) { //跳转疗法详情
 //                    myClick.onItemClick(holder.rl,position);
-                    Log.e("------收藏relayout", collection.getId());
+                    MyLog.e("------收藏relayout", collection.getId());
                     Pos = position;
 //                    if (mDatas.get(position).getType() == 1) {
 //                        Intent intent1 = new Intent(TheRapyActivity.this, VrVideoActivity.class);
@@ -263,7 +295,7 @@ public class CollectionActivity extends AppCompatActivity {
 //                        intent1.putExtra("types", types);//判断是iamgeButton收藏还是选择
 //                        startActivityForResult(intent1, REQST_VIDEO);
 //                    } else if (mDatas.get(position).getType() == 2) {
-//                        Log.e("------收藏relayout", "2");
+//                        MyLog.e("------收藏relayout", "2");
 //                    } else if (mDatas.get(position).getType() == 3) {
                     if (types == 1) {
                         Intent intent1 = new Intent(CollectionActivity.this, ImageViewActivity.class);
@@ -283,7 +315,7 @@ public class CollectionActivity extends AppCompatActivity {
             holder.tv2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e("---------sc", "选择收藏");
+                    MyLog.e("---------sc", "选择收藏");
                     if (holder.tv2.isSelected()) {
                         holder.tv2.setSelected(false);
                         collection.setIsselect(false);
@@ -291,7 +323,7 @@ public class CollectionActivity extends AppCompatActivity {
                             RxBus.getDefault().post(collection);
                             RxBus.getDefault().post(new BusArea(collection.getId(), collection.isselect()));
                             arrayList.remove(collection.getId());
-                        } else {
+                        } else if (types == 0){
                             contentService.collectContentCancel(new CollectContentReq(collection.getId()))
                                     .map(new HttpResultFunc<>())
                                     .subscribeOn(Schedulers.io())
@@ -299,16 +331,22 @@ public class CollectionActivity extends AppCompatActivity {
                                     .subscribe(new ProgressSubscriber<NoData>(CollectionActivity.this, o -> {
                                         deleteData(position);
                                     }));
+                        }else if (types == 2){//取消方案中的内容
+                            for (int i = 0; i < schemes.size(); i++) {
+                                if (schemes.get(i).getId().equals(collection.getId())){
+                                    schemes.remove(i);
+                                }
+                            }
                         }
                     } else {
                         holder.tv2.setSelected(true);
                         collection.setIsselect(true);
                         if (types == 1) {//
-                            Log.e("----收藏界面", "收藏界面的选着");
+                            MyLog.e("----收藏界面", "收藏界面的选着");
                             RxBus.getDefault().post(collection);
                             RxBus.getDefault().post(new BusArea(collection.getId(), collection.isselect()));
                             arrayList.add(collection.getId());
-                        } else {
+                        } else if (types == 0){
                             contentService.collectContent(new CollectContentReq(collection.getId()))
                                     .map(new HttpResultFunc<>())
                                     .subscribeOn(Schedulers.io())
@@ -317,6 +355,8 @@ public class CollectionActivity extends AppCompatActivity {
                                         ToastUtil.showMessage(CollectionActivity.this, "收藏成功");
                                         collection.setIsCollected(1);
                                     }));
+                        }else if (types == 2){
+                            schemes.add(collection);
                         }
                     }
                 }

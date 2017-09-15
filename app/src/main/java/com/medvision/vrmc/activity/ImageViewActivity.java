@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,11 +19,13 @@ import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
 import com.medvision.vrmc.R;
+import com.medvision.vrmc.UrlPath.UrlHttp;
 import com.medvision.vrmc.bean.Buser;
 import com.medvision.vrmc.bean.SingerContentInfo;
 import com.medvision.vrmc.bean.requestbody.CollectContentReq;
 import com.medvision.vrmc.network.ContentService;
 import com.medvision.vrmc.utils.Constant;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.view.Navigation;
 import com.squareup.picasso.Picasso;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
@@ -118,7 +119,7 @@ public class ImageViewActivity extends AppCompatActivity {
                     String[] split = o.getExt().getContent().split(",");
                     for (int i = 0; i < split.length; i++) {
                         images.add(split[i]);
-                        Log.e("---imageviewactivity", split[i]);
+                        MyLog.e("---imageviewactivity", split[i]);
                     }
                     Picasso.with(this).load(o.getCoverPic()).fit().into(banner);
                     vrVideoTitleTv.setText(o.getName());
@@ -161,7 +162,7 @@ public class ImageViewActivity extends AppCompatActivity {
                             tvAdd.setText("加入");
                         }
                     }
-                    webView.loadUrl(Constant.H5_HEADER + o.getDescription());
+                    webView.loadUrl(UrlHttp.BASE_URL_EVERYTHING + o.getDescription());
                 }));
 
 

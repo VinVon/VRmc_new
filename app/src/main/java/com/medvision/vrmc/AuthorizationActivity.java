@@ -18,17 +18,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cs.networklibrary.http.HttpMethods;
-import com.medvision.vrmc.R;
-import com.medvision.vrmc.bean.LoginInfo;
-import com.medvision.vrmc.imp.LoginView;
-
-import com.medvision.vrmc.presenter.LoginPresenter;
+import com.medvision.vrmc.activity.FindPassActivity;
+import com.medvision.vrmc.activity.RegisterActivity;
+import com.medvision.vrmc.bean.CertifiStatus;
 import com.medvision.vrmc.bean.IConstant;
 import com.medvision.vrmc.bean.LocalInfo;
+import com.medvision.vrmc.bean.LoginInfo;
+import com.medvision.vrmc.imp.LoginView;
 import com.medvision.vrmc.network.UserService;
+import com.medvision.vrmc.presenter.LoginPresenter;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.SpUtils;
 import com.medvision.vrmc.utils.ToastCommom;
-import com.medvision.vrmc.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +54,8 @@ public class AuthorizationActivity extends AppCompatActivity implements LoginVie
     Button img1;
     @BindView(R.id.login_help)
     TextView loginHelp;
+    @BindView(R.id.login_regist)
+    TextView loginRegist;
     private ProgressDialog dialog;
     private String path = "http://test.med-vision.cn/api/v1/appVrRoom/login";
     private String device_model = "";
@@ -64,18 +67,14 @@ public class AuthorizationActivity extends AppCompatActivity implements LoginVie
     private boolean isfirst;
     private LoginPresenter loginPresenter;
     private UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorrization);
         ButterKnife.bind(this);
-        userService  = HttpMethods.getInstance().getClassInstance(UserService.class);
+        userService = HttpMethods.getInstance().getClassInstance(UserService.class);
         getData();
-//        if(isfirst){
-//        }else{
-//            phonenumber.setText(username);
-//            hospital.setText(passworld);
-//        }
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -102,21 +101,13 @@ public class AuthorizationActivity extends AppCompatActivity implements LoginVie
                 priArgs.put("deviceVersion", version_release);
                 priArgs.put("password", passworld);
                 priArgs.put("username", username);
-//                UserReq req  = new UserReq();
-//                req.setAppId(device_id);
-//                req.setAppVersion(version);
-//                req.setChannel("null");
-//                req.setDeviceModel(device_model);
-//                req.setDeviceSystem("android");
-//                req.setDeviceVersion(version_release);
-//                req.setPassword(passworld);
-//                req.setUsername(username);
                 loginPresenter = new LoginPresenter(AuthorizationActivity.this, priArgs);
                 loginPresenter.Login();
 
             }
         });
     }
+
     private boolean isExit = false;
     private Handler mHandler = new Handler() {
 
@@ -128,6 +119,7 @@ public class AuthorizationActivity extends AppCompatActivity implements LoginVie
         }
 
     };
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -150,36 +142,26 @@ public class AuthorizationActivity extends AppCompatActivity implements LoginVie
 
     @Override
     public void updateView(LoginInfo user) {
+        MyLog.e("-----登录token", user.getData().getToken());
         saveData(false, username, passworld, user.getData().getToken(), user);
         Intent intent = new Intent(AuthorizationActivity.this, MainActivity.class);
         startActivity(intent);
     }
-    @OnClick(R.id.login_help)
-    public  void OnClick(View v){
-        switch (v.getId()){
+
+    @OnClick({R.id.login_help,R.id.login_regist})
+    public void OnClick(View v) {
+        switch (v.getId()) {
             case R.id.login_help:
-                new SweetAlertDialog(this,SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("联系客服").setContentText("账号问题请联系客服处理!"+"\n"+"客服电话:400-166-7866")
-                        .setCancelText("取消")
-                        .setConfirmText("确定")
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
-                            }
-                        })
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismiss();
-                                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:4001667866"));
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                            }
-                        }).show();
+                Intent intent1 = new Intent(AuthorizationActivity.this, FindPassActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.login_regist:
+                Intent intent = new Intent(AuthorizationActivity.this, RegisterActivity.class);
+                startActivity(intent);
                 break;
         }
     }
+
     @Override
     public void showProgressDialog() {
         dialog = ProgressDialog.show(AuthorizationActivity.this, "账号登录中", "Please wait...", true, false);
@@ -201,6 +183,9 @@ public class AuthorizationActivity extends AppCompatActivity implements LoginVie
         instance.init(AuthorizationActivity.this);
         instance.saveUser(info);
         instance.saveLogin(infos);
+        if (instance.getUserStatus() == null){
+            instance.saveUserStatus(new CertifiStatus(-1,false));
+        }
     }
 
     public void getData() {

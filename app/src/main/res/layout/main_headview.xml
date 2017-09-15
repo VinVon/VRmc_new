@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/banner" />
+
+    <LinearLayout
+        android:id="@+id/item_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_main"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="90">
+
+        <TextView
+            android:id="@+id/add_patient"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:background="@color/white"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/man"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="我的患者"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/vr_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:background="@color/white"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/vr"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="VR场景"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/vr_handbook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:background="@color/white"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/book"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="手册"
+            android:textColor="@color/black" />
+    </LinearLayout>
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_below="@+id/item_main"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="30dp">
+        <TextView
+            android:paddingLeft="17dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textcolor"
+            android:textSize="18sp"
+            android:text="新闻资讯"/>
+        <TextView
+            android:id="@+id/news_more"
+            android:paddingRight="17dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textcolor"
+            android:textSize="16sp"
+            android:text="更多"/>
+    </RelativeLayout>
+</RelativeLayout>

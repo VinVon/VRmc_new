@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +29,18 @@ import com.medvision.vrmc.R;
 import com.medvision.vrmc.adapter.FavoriteStationListViewAdapter;
 import com.medvision.vrmc.bean.HomeContent;
 import com.medvision.vrmc.bean.PrescriptionInfo;
+import com.medvision.vrmc.bean.SingerSchemeInfo;
 import com.medvision.vrmc.bean.requestbody.AddPrescriptionReq;
 import com.medvision.vrmc.bean.requestbody.AddPrescriptionsReq;
 import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.NetworkStat;
 import com.medvision.vrmc.view.ListViewForScrollView;
 import com.medvision.vrmc.view.LoveLayout;
 import com.medvision.vrmc.view.Navigation;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
 import com.wzgiceman.rxbuslibrary.rxbus.Subscribe;
+import com.wzgiceman.rxbuslibrary.rxbus.SubscriberMethod;
 import com.wzgiceman.rxbuslibrary.rxbus.ThreadMode;
 
 import java.util.ArrayList;
@@ -65,6 +68,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements Favori
     LinearLayout prescriptionAdd;
     private ArrayList<String> strings = new ArrayList<>();
     private FavoriteStationListViewAdapter adapter;
+
     private boolean aBoolean = true;
     private String disease;
     private String hospotalContent;
@@ -139,7 +143,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements Favori
                 addp.setPrescriptionContentList(addsList);
                 Gson gson = new Gson();
                 String st = gson.toJson(addp);
-                Log.e("TAG", st);
+                MyLog.e("TAG", st);
                 toAddprescription(addp);
             }
         });
@@ -176,9 +180,9 @@ public class AddPrescriptionActivity extends AppCompatActivity implements Favori
     }
 
     /*接受事件*/
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN )
     public void event(HomeContent o) {
-        Log.e("---开处方", "来到开处方处方界面" + homeContentList.size() + "个");
+        MyLog.e("---开处方", "来到开处方处方界面" + homeContentList.size() + "个");
         ArrayList<HomeContent> homeContentLists = new ArrayList<>();
         homeContentLists.addAll(homeContentList);
         if (homeContentList.size() == 0) {
@@ -188,7 +192,7 @@ public class AddPrescriptionActivity extends AppCompatActivity implements Favori
             if (homeContentList.get(i).getId().equals(o.getId()) && !o.isselect()) {
                 homeContentList.remove(i);
                 strings.remove(i);
-                Log.e("---开处方", "移除了");
+                MyLog.e("---开处方", "移除了");
                 adapter.setDataList(homeContentList);
                 aBoolean = false;
                 break;
@@ -198,16 +202,48 @@ public class AddPrescriptionActivity extends AppCompatActivity implements Favori
         }
         if (aBoolean) {
             homeContentList.add(o);
-            Log.e("---开处方", o.getName() + "--" + o.getPrice());
+            MyLog.e("---开处方", o.getName() + "--" + o.getPrice());
             strings.add(o.getId());
             adapter.setDataList(homeContentList);
         }
     }
-
+    /*接受事件*/
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void event(SingerSchemeInfo.ContentsBean o) {
+        ArrayList<HomeContent> homeContentLists = new ArrayList<>();
+        homeContentLists.addAll(homeContentList);
+        if (homeContentList.size() == 0) {
+            aBoolean = true;
+        }
+        for (int i = 0; i < homeContentLists.size(); i++) {
+            if (homeContentList.get(i).getId().equals(o.getId())) {
+                aBoolean = false;
+                break;
+            } else {
+                aBoolean = true;
+            }
+        }
+        if (aBoolean) {
+            HomeContent homeContent = new HomeContent();
+            homeContent.setId(o.getId());
+            homeContent.setType(o.getType());
+            homeContent.setTypeName(o.getTypeName());
+            homeContent.setPrice(o.getPrice());
+            homeContent.setName(o.getName());
+            homeContent.setCoverPic(o.getCoverPic());
+            homeContent.setClicks((Integer) o.getClicks());
+            homeContent.setDuration(o.getDuration());
+            homeContent.setIsCollected(o.getIsCollected());
+            homeContentList.add(homeContent);
+            strings.add(o.getId());
+            adapter.setDataList(homeContentList);
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
          /*註銷*/
+
         RxBus.getDefault().unRegister(this);
     }
 
@@ -239,14 +275,14 @@ public class AddPrescriptionActivity extends AppCompatActivity implements Favori
         TextView tv_yes = (TextView) inflate.findViewById(R.id.popo_yes);
         TextView tv_type = (TextView) inflate.findViewById(R.id.tv_date_type);
         Spinner spinner = (Spinner) inflate.findViewById(R.id.popo_sp);
-        Log.e("------zhouqie", dat_typr_in + "");
+        MyLog.e("------zhouqie", dat_typr_in + "");
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] languages = getResources().getStringArray(R.array.datetimes);
                 dat_type = languages[position];
                 dat_typr_in = position + 1;
-                Log.e("------zhouqitype", dat_typr_in + "");
+                MyLog.e("------zhouqitype", dat_typr_in + "");
                 tv_type.setText(dat_type);
             }
 

@@ -17,6 +17,15 @@ public class ModifPatientreq extends BaseReq {
     private String diseaseId;
     private String patientId;
     private String ts;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public String getRemark() {
         return remark;

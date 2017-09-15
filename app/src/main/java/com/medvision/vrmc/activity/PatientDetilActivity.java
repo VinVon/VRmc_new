@@ -64,6 +64,8 @@ public class PatientDetilActivity extends AppCompatActivity {
     Button imgAddPrescription;
     @BindView(R.id.love_view)
     LoveLayout loveView;
+    @BindView(R.id.xinjing_age)
+    TextView xinjingAge;
 
     private String patientId;
     private ContentService contentService;
@@ -124,7 +126,8 @@ public class PatientDetilActivity extends AppCompatActivity {
                     } else {
                         xinjingSex.setText("女");
                     }
-                    xinjingBorn.setText(o.getBirthday().substring(0, 10));
+//                    xinjingBorn.setText(o.getBirthday().substring(0, 10));
+                    xinjingAge.setText(o.getAge()+"");
                     if (o.getEducationDegree() == 1) {
                         xinjingErducation.setText("文盲");
                     } else if (o.getEducationDegree() == 2) {
@@ -150,7 +153,7 @@ public class PatientDetilActivity extends AppCompatActivity {
 
     @OnClick({R.id.xinjing_name, R.id.xinjing_markName, R.id.xinjing_phone, R.id.xinjing_disease,
             R.id.xinjing_phonenumber, R.id.xinjing_sex, R.id.xinjing_born, R.id.xinjing_erducation,
-            R.id.xinjing_marry, R.id.xinjing_medical_card_number, R.id.img_add_prescription, R.id.xingjing_history})
+            R.id.xinjing_marry, R.id.xinjing_medical_card_number, R.id.img_add_prescription, R.id.xingjing_history,R.id.xinjing_age})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.xinjing_name:
@@ -174,7 +177,7 @@ public class PatientDetilActivity extends AppCompatActivity {
             case R.id.xinjing_sex:
                 changeInfos(7);
                 break;
-            case R.id.xinjing_born:
+            case R.id.xinjing_born://暂时取消出生日期
                 changeInfos(8);
                 break;
             case R.id.xinjing_erducation:
@@ -182,6 +185,9 @@ public class PatientDetilActivity extends AppCompatActivity {
                 break;
             case R.id.xinjing_marry:
                 changeInfos(10);
+                break;
+            case R.id.xinjing_age:
+                changeInfos(11);
                 break;
             case R.id.img_add_prescription:
                 Intent intent = new Intent(PatientDetilActivity.this, AddPrescriptionActivity.class);
@@ -290,6 +296,10 @@ public class PatientDetilActivity extends AppCompatActivity {
             case 10:
                 myPatientDetil.setMaritalStatus(extraInt);
                 xinjingMarry.setText(datas);
+                break;
+            case 11:
+                myPatientDetil.setAge(Integer.valueOf(datas));
+                xinjingAge.setText(datas);
                 break;
         }
     }

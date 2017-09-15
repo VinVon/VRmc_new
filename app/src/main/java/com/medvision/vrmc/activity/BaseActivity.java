@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        registerExitReceiver();
+        registerExitReceiver();
         mSubscription = mRxBus.toObserverable(SubscriptionLogout.class)
                 .subscribe(subscriptionLogout -> {
                             SpUtils instance = SpUtils.getInstance();
@@ -48,10 +48,10 @@ public class BaseActivity extends AppCompatActivity {
         registerReceiver(exitReceiver, exitFilter);
     }
 
-//    private void unRegisterExitReceiver() {
-//
-//        unregisterReceiver(exitReceiver);
-//    }
+    private void unRegisterExitReceiver() {
+
+        unregisterReceiver(exitReceiver);
+    }
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub
@@ -59,7 +59,7 @@ public class BaseActivity extends AppCompatActivity {
             mSubscription.unsubscribe();
         }
         super.onDestroy();
-//        unRegisterExitReceiver();
+        unRegisterExitReceiver();
     }
 
     public void exitApp() {

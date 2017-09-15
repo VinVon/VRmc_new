@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -21,13 +21,17 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cs.common.utils.ToastUtil;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
 import com.medvision.vrmc.R;
+import com.medvision.vrmc.UrlPath.UrlHttp;
 import com.medvision.vrmc.bean.FilterType;
 import com.medvision.vrmc.bean.requestbody.BaseReq;
 import com.medvision.vrmc.imp.MyClick;
+import com.medvision.vrmc.utils.MyLog;
+import com.medvision.vrmc.utils.SpUtils;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
 import com.wzgiceman.rxbuslibrary.rxbus.Subscribe;
 import com.wzgiceman.rxbuslibrary.rxbus.ThreadMode;
@@ -77,7 +81,7 @@ public class AreaActivity extends BaseActivity {
     private boolean isType = false;//radiogroup 是否切换到我的收藏，需要更换recycleView布局
     private int type ;//1 是选择，0是收藏
     private ArrayList<String> arrayList ;
-    private String url ="http://test.med-vision.cn/h5/help";
+    private String url = UrlHttp.BASE_URL_EVERYTHING+"h5/help";
     private String diseaseIds;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,6 +127,11 @@ public class AreaActivity extends BaseActivity {
                             intent.putStringArrayListExtra("datalist",arrayList);
                         }
                         startActivity(intent);
+                        break;
+                    case 1:
+                        Intent intents = new Intent(AreaActivity.this, SchemeActivity.class);
+                        intents.putExtra("types",type);
+                        startActivity(intents);
                         break;
                 }
             }
@@ -182,6 +191,7 @@ public class AreaActivity extends BaseActivity {
 
     private void initData() {
         strings.add("常用场景");
+        strings.add("我的方案");
         contentService.getFilterDiseases(new BaseReq())
                 .map(new HttpResultFunc<List<FilterType>>())
                 .subscribeOn(Schedulers.io())
@@ -455,7 +465,7 @@ public class AreaActivity extends BaseActivity {
     /*接受事件*/
     @Subscribe(threadMode= ThreadMode.NEW_THREAD)
     public void event(BusArea o){
-        Log.e("---来到场景界面","来到场景界面"+arrayList.size()+"个");
+        MyLog.e("---来到场景界面","来到场景界面"+arrayList.size()+"个");
         ArrayList<String> Lists = new ArrayList<>();
         Lists.addAll(arrayList);
         if (arrayList.size() ==0){
@@ -464,7 +474,7 @@ public class AreaActivity extends BaseActivity {
         for (int i = 0; i <Lists.size(); i++) {
             if (arrayList.get(i).equals(o.getStr()) && !o.isselect()){
                 arrayList.remove(i);
-                Log.e("---来到场景界面","移除了");
+                MyLog.e("---来到场景界面","移除了");
                 aBoolean = false;
                 break;
             }else{

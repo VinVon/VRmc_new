@@ -5,13 +5,15 @@ package com.medvision.vrmc.UrlPath;
  */
 
 public class UrlHttp {
-    public static final String BASE_URL_EVERYTHING = "http://test.med-vision.cn/";
-//    public static final String BASE_URL_EVERYTHING = "http://support.med-vision.cn/";
+
     //测试地址
+    public static final String BASE_URL_EVERYTHING = "http://test.med-vision.cn/";
     public static final String BASE_URL="http://test.med-vision.cn/api/v1/appControlDoctor";
     //正式地址
+//    public static final String BASE_URL_EVERYTHING = "http://support.med-vision.cn/";
 //    public static final String BASE_URL="http://support.med-vision.cn/api/v1/appControlDoctor";
     public static final String PATH_LOGIN =BASE_URL+"/login";
+    public static final String USER_TEXT =BASE_URL_EVERYTHING+"h5/agreement/info";
     //获取患者接口
     public static final String PATH_PATIENT=BASE_URL+"/patient/getByKeyword";
     //根据病案号获取患者接口

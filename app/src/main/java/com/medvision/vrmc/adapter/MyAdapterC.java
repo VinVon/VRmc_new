@@ -1,7 +1,7 @@
 package com.medvision.vrmc.adapter;
 
 import android.content.Context;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +10,7 @@ import com.medvision.vrmc.R;
 import com.medvision.vrmc.adapter.abs.AbstractAdapter;
 import com.medvision.vrmc.adapter.abs.ViewHolder;
 import com.medvision.vrmc.bean.PrescriptionContent;
+import com.medvision.vrmc.utils.MyLog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class MyAdapterC extends AbstractAdapter<PrescriptionContent.DataBean> {
         Picasso.with(context)
                 .load(bean.getContent_coverPic())
                 .into(tv_paly);
-        Log.e("--------url",bean.getContent_coverPic()+"");
+        MyLog.e("--------url",bean.getContent_coverPic()+"");
         tv_paly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

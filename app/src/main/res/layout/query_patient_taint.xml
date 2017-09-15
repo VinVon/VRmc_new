@@ -48,8 +48,25 @@
                 android:layout_marginLeft="15dp"
                 android:layout_height="0.5dp"
                 android:background="@color/grays"></LinearLayout>
+            <!-- 年龄-->
+            <LinearLayout
+                style="@style/patient_items"
+                >
+                <TextView
+                    style="@style/patient_items_textview"
+                    android:text="年       龄"/>
+                <TextView
+                    android:id="@+id/xinjing_age"
+                    style="@style/patient_items_textview_right"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_height="0.5dp"
+                android:background="@color/grays"></LinearLayout>
             <!-- 出生日期-->
             <LinearLayout
+                android:visibility="gone"
                 style="@style/patient_items"
                 >
                 <TextView
@@ -61,6 +78,7 @@
                     style="@style/patient_items_textview_right"/>
             </LinearLayout>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="15dp"
                 android:layout_height="0.5dp"

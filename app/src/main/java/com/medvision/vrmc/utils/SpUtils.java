@@ -4,9 +4,9 @@
      * Created by raytine on 2017/2/28.
      */
     import android.content.Context;
-    import android.util.Log;
 
 
+    import com.medvision.vrmc.bean.CertifiStatus;
     import com.medvision.vrmc.bean.LoginInfo;
     import com.medvision.vrmc.bean.LocalInfo;
 
@@ -35,7 +35,7 @@
             if (module != null) {
                 return (LoginInfo) module;
             } else {
-                Log.e("-----------","用户信息为空");
+                MyLog.e("-----------","用户信息为空");
                 return null;
             }
         }
@@ -44,7 +44,16 @@
             if (module != null) {
                 return (LocalInfo) module;
             } else {
-                Log.e("-----------","用户信息为空");
+                MyLog.e("-----------","用户信息为空");
+                return null;
+            }
+        }
+        public CertifiStatus getUserStatus() {
+            Object module = getModule(SpDictionary.SP_STATUS);
+            if (module != null) {
+                return (CertifiStatus) module;
+            } else {
+                MyLog.e("-----------","用户信息为空");
                 return null;
             }
         }
@@ -52,18 +61,14 @@
             boolean aBoolean = getBoolean(SpDictionary.TEXT);
             return  aBoolean;
         }
-//        public String getLastAyncTime(){
-//            String string = getString(SpDictionary.SYNC_TIME);
-//            return string;
-//        }
-//        public void saveLastAynvTime(String value){
-//            putString(SpDictionary.SYNC_TIME,value);
-//        }
         public void saveUser(LocalInfo user) {
             putModule(SpDictionary.SP_USER, user);
         }
         public void saveLogin(LoginInfo user) {
             putModule(SpDictionary.SP_LOGIN, user);
+        }
+        public void saveUserStatus(CertifiStatus status) {
+            putModule(SpDictionary.SP_STATUS, status);
         }
         public void saveFirstLogin(boolean is){putBoolean(SpDictionary.TEXT,is);}
 

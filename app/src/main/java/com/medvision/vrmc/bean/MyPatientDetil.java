@@ -49,6 +49,7 @@ public class MyPatientDetil implements Serializable{
     private int canModify;
     private Object patientId;
     private String ts;
+    private int age;
 
     public Object getToken() {
         return token;
@@ -200,5 +201,13 @@ public class MyPatientDetil implements Serializable{
 
     public void setTs(String ts) {
         this.ts = ts;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

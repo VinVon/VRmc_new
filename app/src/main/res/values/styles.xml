@@ -19,7 +19,7 @@
         <!--<item name="android:background">@drawable/bg_line</item>-->
         <item name="android:background">@color/white</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:orientation">horizontal</item>
     </style>
@@ -65,4 +65,29 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">#323232</item>
     </style>
+    <!-- 基本信息LineaLayout样式-->
+    <style name="admin_linealayout_style">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+       <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <style name="admin_text_style">
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textcolor</item>
+    </style>
+    <style name="admin_texts_style">
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:paddingLeft">30dp</item>
+    </style>
+
 </resources>

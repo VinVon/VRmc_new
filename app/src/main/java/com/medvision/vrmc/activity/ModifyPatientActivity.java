@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +17,17 @@ import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
 import com.google.gson.Gson;
+import com.medvision.vrmc.R;
+import com.medvision.vrmc.bean.FilterDisease;
+import com.medvision.vrmc.bean.ModifPatientInfo;
+import com.medvision.vrmc.bean.MyPatientDetil;
+import com.medvision.vrmc.bean.requestbody.BaseReq;
+import com.medvision.vrmc.bean.requestbody.ModifPatientreq;
+import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.MyLog;
+import com.medvision.vrmc.utils.NetworkStat;
+import com.medvision.vrmc.utils.ToastCommom;
+import com.medvision.vrmc.view.Navigation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,18 +40,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import com.medvision.vrmc.R;
-import com.medvision.vrmc.bean.FilterDisease;
-import com.medvision.vrmc.bean.ModifPatientInfo;
-import com.medvision.vrmc.bean.MyPatientDetil;
-import com.medvision.vrmc.bean.requestbody.BaseReq;
-import com.medvision.vrmc.bean.requestbody.ModifPatientreq;
-import com.medvision.vrmc.network.ContentService;
-import com.medvision.vrmc.utils.NetworkStat;
-import com.medvision.vrmc.utils.ToastCommom;
-import com.medvision.vrmc.view.Navigation;
-
 
 
 /**
@@ -90,6 +88,10 @@ public class ModifyPatientActivity extends AppCompatActivity {
     EditText etMedicalCardNumber;
     @BindView(R.id.modif_ll_medical_card_number)
     LinearLayout modifLlMedicalCardNumber;
+    @BindView(R.id.et_age)
+    EditText etAge;
+    @BindView(R.id.modif_ll_age)
+    LinearLayout modifLlAge;
     private int changType = 0;
     private ContentService contentService;
     private List<String> titles = new ArrayList<>();//病症字段集合
@@ -112,6 +114,7 @@ public class ModifyPatientActivity extends AppCompatActivity {
     private String medical_card;//医保卡号
     private MyPatientDetil myPatientDetil;
     private Button btn_yes;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +128,7 @@ public class ModifyPatientActivity extends AppCompatActivity {
             }
         });
         contentService = HttpMethods.getInstance().getClassInstance(ContentService.class);
-        changType = getIntent().getIntExtra("type",0);
+        changType = getIntent().getIntExtra("type", 0);
         patientId = getIntent().getStringExtra("patientId");
         myPatientDetil = (MyPatientDetil) getIntent().getSerializableExtra("MyPatientDetil");
         initView(changType);
@@ -133,19 +136,20 @@ public class ModifyPatientActivity extends AppCompatActivity {
 
     /**
      * 返回修改值
+     *
      * @param changType
      */
     private void responedResult(int changType) {
         ModifPatientreq m = new ModifPatientreq();
-        switch (changType){
+        switch (changType) {
             case 1://改姓名
                 patient_name = etPatientName.getText().toString().trim();
-                if (patient_name.isEmpty()){
-                    ToastCommom.createInstance().ToastShow(this,"姓名不能为空");
+                if (patient_name.isEmpty()) {
+                    ToastCommom.createInstance().ToastShow(this, "姓名不能为空");
                     break;
                 }
-                if ( patient_name.equals(myPatientDetil.getName())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (patient_name.equals(myPatientDetil.getName())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(patient_name);
@@ -159,15 +163,16 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,patient_name);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, patient_name);
                 break;
             case 2://改备注
                 patient_name_mark = etPatientMarkname.getText().toString().trim();
-                if (patient_name_mark.isEmpty()){
+                if (patient_name_mark.isEmpty()) {
                     patient_name_mark = "";
                 }
-                if ( patient_name_mark.equals(myPatientDetil.getRemark())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (patient_name_mark.equals(myPatientDetil.getRemark())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -181,20 +186,21 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(patient_name_mark);
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,patient_name_mark);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, patient_name_mark);
                 break;
             case 3://病历号
                 medical_nnumber = etMedicalNumber.getText().toString();
-                if (medical_nnumber.isEmpty()){
-                    ToastCommom.createInstance().ToastShow(this,"病历号不能为空");
+                if (medical_nnumber.isEmpty()) {
+                    ToastCommom.createInstance().ToastShow(this, "病历号不能为空");
                     break;
                 }
-                if (medical_nnumber.length() == 11){
-                    ToastCommom.createInstance().ToastShow(this,"病历号长度不能为11位");
+                if (medical_nnumber.length() == 11) {
+                    ToastCommom.createInstance().ToastShow(this, "病历号长度不能为11位");
                     break;
                 }
-                if ( medical_nnumber.equals(myPatientDetil.getClinichistoryNo())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (medical_nnumber.equals(myPatientDetil.getClinichistoryNo())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -208,15 +214,16 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,medical_nnumber);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, medical_nnumber);
                 break;
             case 4:
                 medical_card = etMedicalCardNumber.getText().toString();
-                if (medical_card.isEmpty()){
+                if (medical_card.isEmpty()) {
                     medical_card = "";
                 }
-                if ( medical_card.equals(myPatientDetil.getMedicalInsuranceCardNo())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (medical_card.equals(myPatientDetil.getMedicalInsuranceCardNo())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -230,16 +237,17 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,medical_card);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, medical_card);
                 break;
             case 5:
                 disease = tvDisease.getText().toString();
-                if (disease.isEmpty()){
-                    ToastCommom.createInstance().ToastShow(this,"病症不能为空");
+                if (disease.isEmpty()) {
+                    ToastCommom.createInstance().ToastShow(this, "病症不能为空");
                     break;
                 }
-                if ( disease.equals(myPatientDetil.getDisease())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (disease.equals(myPatientDetil.getDisease())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -253,19 +261,20 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,disease,diseaseId);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, disease, diseaseId);
                 break;
             case 6:
                 phone_bumber = etPhonenumber.getText().toString();
-                if (phone_bumber.isEmpty()){
+                if (phone_bumber.isEmpty()) {
                     phone_bumber = "";
 
                 }
-                if ( phone_bumber.equals(myPatientDetil.getPhone())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (phone_bumber.equals(myPatientDetil.getPhone())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
-                if (!NetworkStat.isMobileNO(phone_bumber)&& !phone_bumber.isEmpty()){
+                if (!NetworkStat.isMobileNO(phone_bumber) && !phone_bumber.isEmpty()) {
                     ToastUtil.showMessage(this, "手机格式不正确");
                     break;
                 }
@@ -280,7 +289,8 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(phone_bumber);
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,phone_bumber);
+                modifPatient(m, phone_bumber);
+                m.setAge(myPatientDetil.getAge());
                 break;
             case 7:
                 String s = tvSex.getText().toString();
@@ -291,8 +301,8 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 } else {
                     sex = 0;
                 }
-                if ( sex == myPatientDetil.getSex()){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (sex == myPatientDetil.getSex()) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -306,22 +316,23 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(sex);
-                modifPatient(m,s,sex);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, s, sex);
                 break;
             case 8:
                 born_date = etBronDate.getText().toString();
                 if (born_date.isEmpty()) {
-                    ToastCommom.createInstance().ToastShow(this,"出生日期不能为空");
+                    ToastCommom.createInstance().ToastShow(this, "出生日期不能为空");
                     break;
                 }
-                if ( born_date.equals(myPatientDetil.getBirthday())){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (born_date.equals(myPatientDetil.getBirthday())) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
                 m.setTs(myPatientDetil.getTs());
                 m.setClinichistoryNo(myPatientDetil.getClinichistoryNo());
-                m.setBirthday(born_date+" 00:00:00");
+                m.setBirthday(born_date + " 00:00:00");
                 m.setDiseaseId(myPatientDetil.getDiseaseId());
                 m.setEducationDegree(myPatientDetil.getEducationDegree());
                 m.setMaritalStatus(myPatientDetil.getMaritalStatus());
@@ -329,7 +340,8 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,born_date);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, born_date);
                 break;
             case 9:
                 String s1 = tvErducation.getText().toString();
@@ -341,13 +353,13 @@ public class ModifyPatientActivity extends AppCompatActivity {
                     education = 3;
                 } else if (s1.equals("高中")) {
                     education = 4;
-                } else if (s1.equals("大学")){
+                } else if (s1.equals("大学")) {
                     education = 5;
-                } else if (s1.equals("研究生及以上")){
+                } else if (s1.equals("研究生及以上")) {
                     education = 6;
                 }
-                if ( education == myPatientDetil.getEducationDegree()){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (education == myPatientDetil.getEducationDegree()) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -361,7 +373,8 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(myPatientDetil.getSex());
-                modifPatient(m,s1,education);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, s1, education);
                 break;
             case 10:
                 String s2 = tvMarry.getText().toString();
@@ -372,8 +385,8 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 } else {
                     marry = 0;
                 }
-                if ( marry == myPatientDetil.getMaritalStatus()){
-                    ToastCommom.createInstance().ToastShow(this,"请修改信息");
+                if (marry == myPatientDetil.getMaritalStatus()) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
                     break;
                 }
                 m.setName(myPatientDetil.getName());
@@ -387,57 +400,84 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 m.setPhone(myPatientDetil.getPhone());
                 m.setRemark(myPatientDetil.getRemark());
                 m.setSex(sex);
-                modifPatient(m,s2,marry);
+                m.setAge(myPatientDetil.getAge());
+                modifPatient(m, s2, marry);
+                break;
+            case 11:
+                String mAge = etAge.getText().toString();
+                if (mAge.isEmpty()){
+                    ToastCommom.createInstance().ToastShow(this, "年龄不能为空");
+                    break;
+                }
+                if (Integer.valueOf(mAge) == myPatientDetil.getAge()) {
+                    ToastCommom.createInstance().ToastShow(this, "请修改信息");
+                    break;
+                }
+                m.setName(myPatientDetil.getName());
+                m.setTs(myPatientDetil.getTs());
+                m.setClinichistoryNo(myPatientDetil.getClinichistoryNo());
+                m.setBirthday(myPatientDetil.getBirthday());
+                m.setDiseaseId(myPatientDetil.getDiseaseId());
+                m.setEducationDegree(myPatientDetil.getEducationDegree());
+                m.setMaritalStatus(myPatientDetil.getMaritalStatus());
+                m.setMedicalInsuranceCardNo(myPatientDetil.getMedicalInsuranceCardNo());
+                m.setPhone(myPatientDetil.getPhone());
+                m.setRemark(myPatientDetil.getRemark());
+                m.setSex(sex);
+                m.setAge(Integer.valueOf(mAge));
+                modifPatient(m, mAge);
                 break;
 
         }
     }
+
     /**
      * 修改信息
      */
-    private void modifPatient(ModifPatientreq m,String dta) {
+    private void modifPatient(ModifPatientreq m, String dta) {
         m.setPatientId(patientId);
         Gson gson = new Gson();
-        Log.e("---json",gson.toJson(m));
+        MyLog.e("---json", gson.toJson(m));
         contentService.modifMyPatientDetil(m)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<ModifPatientInfo>(this, o->{
-                    if (o.getCode() == 0){
+                .subscribe(new ProgressSubscriber<ModifPatientInfo>(this, o -> {
+                    if (o.getCode() == 0) {
                         Intent intent = new Intent();
-                        intent.putExtra("type",changType);
-                        intent.putExtra("data",dta);
-                        intent.putExtra("ts",o.getData().getTs());
-                        setResult(13,intent);
+                        intent.putExtra("type", changType);
+                        intent.putExtra("data", dta);
+                        intent.putExtra("ts", o.getData().getTs());
+                        setResult(13, intent);
                         finish();
-                    }else{
-                        Log.e("------erroe",o.getCode()+"code");
-                        ToastCommom.createInstance().ToastShow(this,"患者信息修改失败");
+                    } else {
+                        MyLog.e("------erroe", o.getCode() + "code");
+                        ToastCommom.createInstance().ToastShow(this, "患者信息修改失败");
                     }
                 }));
     }
+
     /**
      * 修改信息,带额外的int参数
      */
-    private void modifPatient(ModifPatientreq m,String dta,int data) {
+    private void modifPatient(ModifPatientreq m, String dta, int data) {
         m.setPatientId(patientId);
         Gson gson = new Gson();
-        Log.e("---json",gson.toJson(m));
+        MyLog.e("---json", gson.toJson(m));
         contentService.modifMyPatientDetil(m)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<ModifPatientInfo>(this,o->{
-                    if (o.getCode() == 0){
+                .subscribe(new ProgressSubscriber<ModifPatientInfo>(this, o -> {
+                    if (o.getCode() == 0) {
                         Intent intent = new Intent();
-                        intent.putExtra("type",changType);
-                        intent.putExtra("data",dta);
-                        intent.putExtra("extraInt",data);
-                        intent.putExtra("ts",o.getData().getTs());
-                        setResult(13,intent);
+                        intent.putExtra("type", changType);
+                        intent.putExtra("data", dta);
+                        intent.putExtra("extraInt", data);
+                        intent.putExtra("ts", o.getData().getTs());
+                        setResult(13, intent);
                         finish();
-                    }else{
-                        Log.e("------erroe",o.getCode()+"code");
-                        ToastCommom.createInstance().ToastShow(this,"患者信息修改失败");
+                    } else {
+                        MyLog.e("------erroe", o.getCode() + "code");
+                        ToastCommom.createInstance().ToastShow(this, "患者信息修改失败");
                     }
                 }));
     }
@@ -445,31 +485,31 @@ public class ModifyPatientActivity extends AppCompatActivity {
     /**
      * 修改信息,带额外的String参数
      */
-    private void modifPatient(ModifPatientreq m,String dta,String data) {
+    private void modifPatient(ModifPatientreq m, String dta, String data) {
         m.setPatientId(patientId);
         Gson gson = new Gson();
-        Log.e("---json",gson.toJson(m));
+        MyLog.e("---json", gson.toJson(m));
         contentService.modifMyPatientDetil(m)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<ModifPatientInfo>(this,o->{
-                    if (o.getCode() == 0){
+                .subscribe(new ProgressSubscriber<ModifPatientInfo>(this, o -> {
+                    if (o.getCode() == 0) {
                         Intent intent = new Intent();
-                        intent.putExtra("type",changType);
-                        intent.putExtra("data",dta);
-                        intent.putExtra("extraString",data);
-                        intent.putExtra("ts",o.getData().getTs());
-                        setResult(13,intent);
+                        intent.putExtra("type", changType);
+                        intent.putExtra("data", dta);
+                        intent.putExtra("extraString", data);
+                        intent.putExtra("ts", o.getData().getTs());
+                        setResult(13, intent);
                         finish();
-                    }else{
-                        Log.e("------erroe",o.getCode()+"code");
-                        ToastCommom.createInstance().ToastShow(this,"患者信息修改失败");
+                    } else {
+                        MyLog.e("------erroe", o.getCode() + "code");
+                        ToastCommom.createInstance().ToastShow(this, "患者信息修改失败");
                     }
                 }));
     }
 
     private void initView(int changType) {
-        switch (changType){
+        switch (changType) {
             case 1:
                 etPatientName.setText(myPatientDetil.getName());
                 modifLlName.setVisibility(View.VISIBLE);
@@ -498,17 +538,17 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 sexs.add("保密");
                 sexs.add("男");
                 sexs.add("女");
-                if (myPatientDetil.getSex() == 0){
+                if (myPatientDetil.getSex() == 0) {
                     tvSex.setText("保密");
-                }else if (myPatientDetil.getSex() == 1){
+                } else if (myPatientDetil.getSex() == 1) {
                     tvSex.setText("男");
-                }else{
+                } else {
                     tvSex.setText("女");
                 }
                 modifLlSex.setVisibility(View.VISIBLE);
                 break;
             case 8:
-                etBronDate.setText(myPatientDetil.getBirthday().substring(0,10));
+                etBronDate.setText(myPatientDetil.getBirthday().substring(0, 10));
                 modifLlBorn.setVisibility(View.VISIBLE);
                 break;
             case 9:
@@ -522,7 +562,7 @@ public class ModifyPatientActivity extends AppCompatActivity {
                     tvErducation.setText("高中");
                 } else if (myPatientDetil.getEducationDegree() == 5) {
                     tvErducation.setText("大学");
-                } else if (myPatientDetil.getEducationDegree() == 6){
+                } else if (myPatientDetil.getEducationDegree() == 6) {
                     tvErducation.setText("研究生及以上");
                 }
                 educations.add("文盲");
@@ -535,7 +575,7 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 break;
             case 10:
                 if (myPatientDetil.getMaritalStatus() == 1) {
-                   tvMarry.setText("已婚");
+                    tvMarry.setText("已婚");
                 } else if (myPatientDetil.getMaritalStatus() == 2) {
                     tvMarry.setText("未婚");
                 } else {
@@ -546,10 +586,15 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 marrys.add("未婚");
                 modifLlMarry.setVisibility(View.VISIBLE);
                 break;
+            case 11:
+                etAge.setText(myPatientDetil.getAge()+"");
+                modifLlAge.setVisibility(View.VISIBLE);
+                break;
 
         }
 
     }
+
     @OnClick({R.id.tv_disease, R.id.et_bron_date, R.id.tv_sex, R.id.tv_marry, R.id.tv_erducation})
     public void OnClick(View v) {
         switch (v.getId()) {
@@ -575,6 +620,7 @@ public class ModifyPatientActivity extends AppCompatActivity {
 
         }
     }
+
     private void requestDisease() {
         contentService.getFilterDisease(new BaseReq())
                 .map(new HttpResultFunc<>())
@@ -589,6 +635,7 @@ public class ModifyPatientActivity extends AppCompatActivity {
                     initPickerView(titles);
                 }));
     }
+
     private void pickerEducation() {
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
@@ -631,11 +678,12 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 etBronDate.setText(getTime(date));
             }
         }).setLabel("", "", "", "", "", "")
-                .setType(TimePickerView.Type.YEAR_MONTH_DAY).setRangDate(null,Calendar.getInstance())
+                .setType(TimePickerView.Type.YEAR_MONTH_DAY).setRangDate(null, Calendar.getInstance())
                 .build();
         pvTime.setDate(Calendar.getInstance());//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
         pvTime.show();
     }
+
     private void initPickerView(List<String> titles) {
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override

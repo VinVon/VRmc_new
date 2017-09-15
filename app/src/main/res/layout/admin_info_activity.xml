@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_base_title_bar"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/admin_head"
+                    android:textColor="@color/textcolor"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:id="@+id/admin_headImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@mipmap/default_head" />
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line_margin15"></include>
+
+            <LinearLayout style="@style/admin_linealayout_style">
+
+                <TextView
+                    style="@style/admin_text_style"
+                    android:text="@string/admin_name" />
+
+                <TextView
+                    android:id="@+id/admin_name"
+                    style="@style/admin_texts_style" />
+            </LinearLayout>
+
+            <include layout="@layout/layout_line_margin15"></include>
+
+            <LinearLayout style="@style/admin_linealayout_style">
+
+                <TextView
+                    style="@style/admin_text_style"
+                    android:text="@string/admin_sex" />
+
+                <TextView
+                    android:id="@+id/admin_sex"
+                    style="@style/admin_texts_style" />
+            </LinearLayout>
+
+            <include layout="@layout/layout_line_margin15"></include>
+
+            <LinearLayout
+                android:id="@+id/ll_hops"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/admin_linealayout_style">
+
+                    <TextView
+                        style="@style/admin_text_style"
+                        android:text="@string/admin_hospital" />
+
+                    <TextView
+                        android:id="@+id/admin_hospital"
+                        style="@style/admin_texts_style" />
+                </LinearLayout>
+
+                <include layout="@layout/layout_line_margin15"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_zensuo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/admin_linealayout_style">
+
+                    <TextView
+                        style="@style/admin_text_style"
+                        android:text="@string/admin_zensuo" />
+
+                    <TextView
+                        android:id="@+id/admin_zensuo"
+                        style="@style/admin_texts_style" />
+                </LinearLayout>
+
+                <include layout="@layout/layout_line_margin15"></include>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_keshi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/admin_linealayout_style">
+
+                    <TextView
+                        style="@style/admin_text_style"
+                        android:text="@string/admin_keshi" />
+
+                    <TextView
+                        android:id="@+id/admin_keshi"
+                        style="@style/admin_texts_style" />
+                </LinearLayout>
+
+                <include layout="@layout/layout_line_margin15"></include>
+            </LinearLayout>
+
+            <LinearLayout style="@style/admin_linealayout_style">
+
+                <TextView
+                    style="@style/admin_text_style"
+                    android:text="@string/admin_zhichen" />
+
+                <TextView
+                    android:id="@+id/admin_zhichen"
+                    style="@style/admin_texts_style" />
+            </LinearLayout>
+
+            <include layout="@layout/layout_line_margin15"></include>
+
+            <LinearLayout style="@style/admin_linealayout_style">
+
+                <TextView
+                    style="@style/admin_text_style"
+                    android:text="@string/admin_city" />
+
+                <TextView
+                    android:id="@+id/admin_city"
+                    style="@style/admin_texts_style" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

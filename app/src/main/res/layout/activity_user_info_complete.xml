@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:id="@+id/lll_llll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundcolor"
+            android:orientation="vertical">
+            <include layout="@layout/activity_base_title_bar"></include>
+            <LinearLayout
+                android:layout_height="47dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_name"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:hint="@string/input_editor"
+                    android:inputType="text"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <include layout="@layout/layout_line_margin15"></include>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@color/textcolor"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_sex"
+                    android:textSize="16dp" />
+                <RadioGroup
+                    android:id="@+id/edit_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:checkedButton="@+id/radio_sex_1"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radio_sex_1"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="男"/>
+                    <RadioButton
+                        android:id="@+id/radio_sex_2"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="女"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <include layout="@layout/layout_line_margin15"></include>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:background="#ffffff"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_city"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:gravity="center_vertical"
+                    android:id="@+id/edit_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:hint="请选择您所在的城市"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <include layout="@layout/layout_line_margin15"></include>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:layout_marginBottom="15dp"
+                android:background="#ffffff"
+                >
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/tv_11"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_zhichen"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+                <Spinner
+                    android:layout_toRightOf="@+id/tv_11"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/edit_zhichen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/downarrow"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/tv_11"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/tv_zhichen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="职称"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+            <RadioGroup
+                android:id="@+id/radio_group_hops"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:checkedButton="@+id/radio_hops_1"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/radio_hops_1"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:text="医院"
+                    android:layout_height="wrap_content" />
+                <RadioButton
+                    android:id="@+id/radio_hops_2"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:text="诊所"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+        <LinearLayout
+            android:id="@+id/hospital_ll1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/et_ll_hops"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_hospital"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp"
+                    android:id="@+id/textView3" />
+
+                <EditText
+                    android:id="@+id/edit_hospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:hint="@string/input_editor"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <include layout="@layout/layout_line_margin15"></include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:id="@+id/et_ll_keshi"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_keshi"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/edit_keshi"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:hint="@string/input_editor"
+                    android:textSize="15dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/hospital_ll2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:id="@+id/et_ll_zensuo"
+
+                android:background="#ffffff"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_zensuo"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/edit_zensuo"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:hint="@string/input_editor"
+                    android:textSize="15dp" />
+            </LinearLayout>
+            <include layout="@layout/layout_line_margin15"></include>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="47dp"
+                android:id="@+id/et_ll_zhiwei"
+                android:background="#ffffff"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/admin_zhiwei"
+                    android:textColor="@color/textcolor"
+                    android:textSize="16dp" />
+                <EditText
+                    android:id="@+id/edit_zhiwei"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:hint="@string/input_editor"
+                    android:textSize="15dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <Button
+            android:layout_below="@+id/lll_llll"
+            android:id="@+id/btn_cormif"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:text="下一步"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+
+</ScrollView>

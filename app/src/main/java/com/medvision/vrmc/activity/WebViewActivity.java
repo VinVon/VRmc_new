@@ -28,6 +28,10 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_activity);
         ButterKnife.bind(this);
+        String st = getIntent().getStringExtra("title");
+        if (st == null){
+            st = "内容详情";
+        }
         Navigation.getInstance(this).setBacks(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +46,7 @@ public class WebViewActivity extends AppCompatActivity {
                    finish();
                 }
             }
-        }).setTitle("内容详情").setRight("关闭", new View.OnClickListener() {
+        }).setTitle(st).setRight("关闭", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

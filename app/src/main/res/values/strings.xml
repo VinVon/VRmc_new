@@ -8,8 +8,63 @@
     <string name="patient_name">请输入患者姓名</string>
     <string name="born_date">参考,必输</string>
     <string name="phone_number">请输入患者手机号</string>
+    <string name="age_number">请输入患者年龄</string>
     <string name="marry">参考,非必输</string>
     <string name="medical_card">手工录入,非必输</string>
     <string name="phone_company">4001667866</string>
     <string name="phone_companys">如有问题,请联系客服咨询:4001667866</string>
+    <!-- 个人中心 -->
+    <string name="login_register">立即注册</string>
+    <string name="login_forget_pwd">忘记密码？</string>
+    <string name="login_login">登&#160;&#160;录</string>
+    <string name="login_other_login">其他登陆方式</string>
+    <string name="register_phone_number_hint">请输入手机号</string>
+    <string name="register_get_sms">获取验证码</string>
+    <string name="register_sms_hint">请输入验证码</string>
+    <string name="register_odd_pass">请输入旧密码</string>
+    <string name="register_new_pass">请输入新密码</string>
+    <string name="register_password_hint">请输入您的密码</string>
+    <string name="register_confirm_password_hint">请再次输入您的密码</string>
+    <string name="register_register">注&#160;&#160;册</string>
+    <string name="register_user_protocol_hint">点击注册表示同意</string>
+    <string name="register_user_protocol">用户协议</string>
+    <string name="register_yes">确&#160;&#160;定</string>
+    <string name="title_register">注册</string>
+    <!-- 基本信息 -->
+    <string name="admin_head">头&#160;&#160;&#160;&#160;&#160;&#160;像</string>
+    <string name="admin_name">姓&#160;&#160;&#160;&#160;&#160;&#160;名</string>
+    <string name="admin_sex">性&#160;&#160;&#160;&#160;&#160;&#160;别</string>
+    <string name="admin_hospital">医&#160;&#160;&#160;&#160;&#160;&#160;院</string>
+    <string name="admin_zensuo">诊&#160;&#160;&#160;&#160;&#160;&#160;所</string>
+    <string name="admin_zhiwei">职&#160;&#160;&#160;&#160;&#160;&#160;位</string>
+    <string name="admin_keshi">科&#160;&#160;&#160;&#160;&#160;&#160;室</string>
+    <string name="admin_zhichen">职&#160;&#160;&#160;&#160;&#160;&#160;称</string>
+    <string name="admin_city">城&#160;&#160;&#160;&#160;&#160;&#160;市</string>
+    <!-- 认证信息 -->
+    <string name="certification_myselfpicture">个人照片</string>
+    <string name="certification_myselfpicture_desc">请上传清晰的免冠个人照片</string>
+    <string name="certification_doc_certifica">医师资格证</string>
+    <string name="certification_job_certifica">工作证</string>
+    <string name="certification_heart_certificate">心理咨询证书</string>
+    <string name="certification_zhichen_certificate">职称资格证</string>
+    <string name="certification_certificate_desc">请上传清晰的证件照片</string>
+    <!-- hint -->
+    <string name="next">下一步</string>
+    <string name="save">保存</string>
+    <string name="commit">提交</string>
+    <string name="input_editor">必填</string>
+    <string name="register_profressional_title">请选择职称</string>
+    <string name="hint_login_user_phone">请输入您的手机号</string>
+    <string name="hint_login_user_pwd">请输入您的密码</string>
+    <string name="doctor_verify_pic_upload">请上传医师职业证(带职业信息的详细证)</string>
+    <string name="doctor_verify_pic1_upload">请上传职称资格证</string>
+    <string name="doctor_verify_pic2_upload">请上传心理咨询师证</string>
+    <string name="doctor_verify_pic3_upload">请上传工作证</string>
+    <string name="doctor_verify_upload_tip">如果您有职称资格证，请上传职称资格证</string>
+    <string name="doctor_verify_default_picture">个人照片 (必填)</string>
+    <string name="doctor_verify_id_explain">身份证照片仅用作认证,患者及第三方不可见</string>
+    <string name="doctor_id_card_front">请上传身份证正面照片</string>
+    <string name="doctor_verify_default_say">请上传清晰的证件照片</string>
+    <string name="doctor_id_card_bg">请上传身份证背面照片</string>
+    <string name="docrot_ud_card_say">身份证照片需要上传正反面照片</string>
 </resources>

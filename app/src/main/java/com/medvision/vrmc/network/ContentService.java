@@ -5,15 +5,19 @@ import java.util.List;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
+
+import com.cs.networklibrary.entity.NoData;
 import com.medvision.vrmc.bean.FilterDisease;
 import com.medvision.vrmc.bean.FilterType;
 import com.medvision.vrmc.bean.HistoryPrescriptionInfo;
 import com.medvision.vrmc.bean.HomeContent;
 import com.medvision.vrmc.bean.MyPatientDetil;
 import com.medvision.vrmc.bean.MyPatients;
+import com.medvision.vrmc.bean.NewsInfo;
 import com.medvision.vrmc.bean.PrescriptionInfo;
 import com.medvision.vrmc.bean.SingerContentInfo;
 import com.medvision.vrmc.bean.SingerPrescriptionInfo;
+import com.medvision.vrmc.bean.SingerSchemeInfo;
 import com.medvision.vrmc.bean.requestbody.AddPatientreq;
 import com.medvision.vrmc.bean.requestbody.AddPrescriptionReq;
 import com.medvision.vrmc.bean.requestbody.BaseReq;
@@ -26,6 +30,9 @@ import com.medvision.vrmc.bean.requestbody.Patientreq;
 import com.medvision.vrmc.bean.AddPatientInfo;
 import com.medvision.vrmc.bean.ModifPatientInfo;
 import com.medvision.vrmc.bean.requestbody.CollectContentReq;
+import com.medvision.vrmc.bean.requestbody.schemeReq;
+import com.medvision.vrmc.bean.requestbody.schemedeleteReq;
+import com.medvision.vrmc.bean.requestbody.schememodifyReq;
 
 /**
  * Created by raytine on 2017/7/11.
@@ -118,4 +125,24 @@ public interface ContentService {
      */
     @POST("appControlDoctor/prescription/info")
     Observable<HttpResult<SingerPrescriptionInfo>> getPrescription(@Body GetSingerPrescriptionReq baseReq);
+    /**
+     * 增加方案
+     */
+    @POST("appControlDoctor/addPlan")
+    Observable<HttpResult<NoData>> addScheme(@Body schemeReq baseReq);
+    /**
+     * 获取我的方案
+     */
+    @POST("appControlDoctor/myPlans")
+    Observable<HttpResult<List<SingerSchemeInfo>>> getScheme(@Body BaseReq baseReq);
+    /**
+     * 修改方案
+     */
+    @POST("appControlDoctor/upPlan")
+    Observable<HttpResult<NoData>> modifyScheme(@Body schememodifyReq baseReq);
+    /**
+     * 修改方案
+     */
+    @POST("appControlDoctor/deletePlan")
+    Observable<HttpResult<NoData>> deleteScheme(@Body schemedeleteReq baseReq);
 }

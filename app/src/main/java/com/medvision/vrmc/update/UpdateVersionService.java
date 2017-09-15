@@ -43,7 +43,7 @@ public class UpdateVersionService extends Service {
         httpUtils = new HttpUtils();
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification = new Notification();
-        notification.icon = R.mipmap.icons;
+        notification.icon = R.mipmap.icon;
         notification.tickerText = "开始下载";
         notification.when = System.currentTimeMillis();
         notification.contentView = new RemoteViews(getPackageName(), R.layout.notifycation);

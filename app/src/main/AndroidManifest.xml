@@ -12,26 +12,17 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.READ_LOGS" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+    <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
@@ -41,68 +32,100 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        tools:replace="android:icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
         <activity
             android:name=".AuthorizationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name="com.medvision.vrmc.MainActivity"
+
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.medvision.vrmc.MainActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.WelcomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.PrescriptionContentActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" ></activity>
-        <activity android:name=".activity.PaintActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-            ></activity>
         <activity
+            android:name=".activity.PrescriptionContentActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.PaintActivity"
             android:screenOrientation="portrait"
+
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            >
+        </activity>
+        <activity
             android:name=".activity.ModifyPassActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".activity.AddPatientActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.AddPrescriptionActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".activity.AreaActivity"
+        <activity
+            android:name=".activity.AddPatientActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.MyPatientActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".activity.PatientDetilActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity android:name=".activity.ModifyPatientActivity"
+        <activity
+            android:name=".activity.AddPrescriptionActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.TheRapyActivity"
+        <activity
+            android:name=".activity.AreaActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.HistoryPrescriptionActivity"
+        <activity
+            android:name=".activity.MyPatientActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.PrescriptionDetilActivity"
+        <activity
+            android:name=".activity.PatientDetilActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.ImageViewActivity"
+        <activity
+            android:name=".activity.ModifyPatientActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.WebViewActivity"
+        <activity
+            android:name=".activity.TheRapyActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".activity.CollectionActivity"
+        <activity
+            android:name=".activity.HistoryPrescriptionActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.PrescriptionDetilActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.ImageViewActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.CollectionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.AdminInfo"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.CetificationActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.CetificationActivity0"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.FindPassActivity"
+            android:screenOrientation="portrait"></activity>
+
         <service android:name=".update.UpdateVersionService"></service>
+        <activity
+            android:name=".activity.SchemeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.AddSchemeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.SchemeModifyActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
-    
+
 </manifest>

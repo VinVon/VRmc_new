@@ -40,6 +40,7 @@ public class WelcomeActivity extends BaseActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_activity);
         getData();
+        //部分手机应用挂后台会重新启动应用
         if ((getIntent().getFlags()& Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)!=0){
             finish();
             return;

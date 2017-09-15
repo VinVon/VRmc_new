@@ -1,7 +1,7 @@
 package com.medvision.vrmc.adapter;
 
 import android.content.Context;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +15,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 import com.medvision.vrmc.R;
 import com.medvision.vrmc.bean.HomeContent;
+import com.medvision.vrmc.utils.MyLog;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -80,14 +81,14 @@ public class FavoriteStationListViewAdapter extends BaseSwipeAdapter {
             @Override
             public void onOpen(SwipeLayout layout) {
 //                super.onOpen(layout);
-                Log.e("TAG","open");
+                MyLog.e("TAG","open");
 
             }
 
             @Override
             public void onClose(SwipeLayout layout) {
 //                super.onClose(layout);
-                Log.e("TAG","onClose");
+                MyLog.e("TAG","onClose");
             }
         });
         convertView.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
@@ -101,7 +102,7 @@ public class FavoriteStationListViewAdapter extends BaseSwipeAdapter {
         convertView.findViewById(R.id.item_therapy_txt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("----adapter",dataList.get(position).getId());
+                MyLog.e("----adapter",dataList.get(position).getId());
                 setClick.OnSet(dataList.get(position).getId());
 
             }

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.app.Service;
 /**
  * Created by raytine on 2017/2/14.
@@ -17,13 +16,13 @@ public class ExitAppReceiver extends BroadcastReceiver {
         if (context != null) {
 
             if (context instanceof Activity) {
-                Log.i("exit", ((Activity) context).getLocalClassName());
+                MyLog.i("exit", ((Activity) context).getLocalClassName());
                 ((Activity) context).finish();
             } else if (context instanceof FragmentActivity) {
-                Log.i("exit", ((Activity) context).getLocalClassName());
+                MyLog.i("exit", ((Activity) context).getLocalClassName());
                 ((FragmentActivity) context).finish();
             } else if (context instanceof Service) {
-                Log.i("exit", ((Activity) context).getLocalClassName());
+                MyLog.i("exit", ((Activity) context).getLocalClassName());
                 ((Service) context).stopSelf();
             }
         }

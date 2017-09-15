@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -15,7 +14,16 @@ import com.cs.common.utils.ToastUtil;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
-
+import com.medvision.vrmc.R;
+import com.medvision.vrmc.bean.FilterDisease;
+import com.medvision.vrmc.bean.FreshPatientList;
+import com.medvision.vrmc.bean.requestbody.AddPatientreq;
+import com.medvision.vrmc.bean.requestbody.BaseReq;
+import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.NetworkStat;
+import com.medvision.vrmc.utils.ToastCommom;
+import com.medvision.vrmc.view.Navigation;
+import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,25 +37,12 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import com.medvision.vrmc.R;
-import com.medvision.vrmc.bean.FilterDisease;
-import com.medvision.vrmc.bean.FreshPatientList;
-import com.medvision.vrmc.bean.requestbody.AddPatientreq;
-import com.medvision.vrmc.bean.requestbody.BaseReq;
-
-
-import com.medvision.vrmc.network.ContentService;
-import com.medvision.vrmc.utils.NetworkStat;
-import com.medvision.vrmc.utils.ToastCommom;
-import com.medvision.vrmc.view.Navigation;
-import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
-
 /**
  * Created by raytine on 2017/7/11.
  */
 
 public class AddPatientActivity extends AppCompatActivity {
-//    @BindView(R.id.add_patient_back)
+    //    @BindView(R.id.add_patient_back)
 //    ImageView addPatientBack;
 //    @BindView(R.id.add_patient_next)
 //    TextView addPatientNext;
@@ -71,6 +66,8 @@ public class AddPatientActivity extends AppCompatActivity {
     EditText etMedicalCardNumber;
     @BindView(R.id.et_patient_markname)
     EditText etPatientMarkname;
+    @BindView(R.id.et_age)
+    EditText etAge;
     private ContentService contentService;
     private List<FilterDisease> diseases = new ArrayList<>();
     private List<String> titles = new ArrayList<>();//病症字段集合
@@ -89,7 +86,7 @@ public class AddPatientActivity extends AppCompatActivity {
     private int marry = 0;
     private int education = 0;
     private String medical_card;//医保卡号
-
+    private  int age = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,11 +111,16 @@ public class AddPatientActivity extends AppCompatActivity {
                     ToastUtil.showMessage(AddPatientActivity.this, "请输入姓名");
                     return;
                 }
-                born_date = etBronDate.getText().toString();
-                if (born_date.isEmpty()) {
-                    ToastUtil.showMessage(AddPatientActivity.this, "出生日期不能为空");
-                    return;
-                }
+//                born_date = etBronDate.getText().toString();
+//                if (born_date.isEmpty()) {
+//                    ToastUtil.showMessage(AddPatientActivity.this, "出生日期不能为空");
+//                    return;
+//                }
+                if (etAge.getText() == null){
+                    age = 0;
+                }else {age =Integer.valueOf(etAge.getText().toString());}
+
+
                 disease = tvDisease.getText().toString();
                 if (disease.isEmpty()) {
                     ToastUtil.showMessage(AddPatientActivity.this, "病症不能为空");
@@ -138,7 +140,7 @@ public class AddPatientActivity extends AppCompatActivity {
                     }
                 }
                 phone_bumber = etPhonenumber.getText().toString();
-                if (!NetworkStat.isMobileNO(phone_bumber)&& !phone_bumber.isEmpty()){
+                if (!NetworkStat.isMobileNO(phone_bumber) && !phone_bumber.isEmpty()) {
                     ToastUtil.showMessage(AddPatientActivity.this, "手机格式不正确");
                     return;
                 }
@@ -162,7 +164,7 @@ public class AddPatientActivity extends AppCompatActivity {
                     education = 4;
                 } else if (s2.equals("大学")) {
                     education = 5;
-                } else if (s2.equals("研究生及以上")){
+                } else if (s2.equals("研究生及以上")) {
                     education = 6;
                 }
                 patient_name_mark = etPatientMarkname.getText().toString();
@@ -171,13 +173,14 @@ public class AddPatientActivity extends AppCompatActivity {
                 req.setRoomId(patient_name_mark);
                 req.setClinichistoryNo(medical_nnumber);
                 req.setName(patient_name);
-                req.setBirthday(born_date+" 00:00:00");
+//                req.setBirthday(born_date + " 00:00:00");
                 req.setDiseaseId(diseaseId);
                 req.setSex(sex);
                 req.setPhone(phone_bumber);
                 req.setMaritalStatus(marry);
                 req.setEducationDegree(education);
                 req.setMedicalInsuranceCardNo(medical_card);
+                req.setAge(age);
                 requestAddPatient(req);
             }
         });
@@ -206,7 +209,7 @@ public class AddPatientActivity extends AppCompatActivity {
         RxBus.getDefault().register(this);
     }
 
-    @OnClick({ R.id.tv_disease, R.id.et_bron_date, R.id.tv_sex, R.id.tv_marry, R.id.tv_erducation})
+    @OnClick({R.id.tv_disease, R.id.et_bron_date, R.id.tv_sex, R.id.tv_marry, R.id.tv_erducation})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.tv_disease:
@@ -239,14 +242,14 @@ public class AddPatientActivity extends AppCompatActivity {
         contentService.addPatient(req)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<>(this, o-> {
+                .subscribe(new ProgressSubscriber<>(this, o -> {
                     if (o.getCode().equals("0")) {
                         RxBus.getDefault().post(new FreshPatientList());
                         Intent intent = new Intent(AddPatientActivity.this, PatientDetilActivity.class);
-                        intent.putExtra("patientId",o.getData().getId());
+                        intent.putExtra("patientId", o.getData().getId());
                         startActivity(intent);
-                    }else {
-                        ToastCommom.createInstance().ToastShow(AddPatientActivity.this,o.getMessage());
+                    } else {
+                        ToastCommom.createInstance().ToastShow(AddPatientActivity.this, o.getMessage());
                     }
                 }));
     }
@@ -293,7 +296,7 @@ public class AddPatientActivity extends AppCompatActivity {
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 etBronDate.setText(getTime(date));
             }
-        }).setLabel("", "", "", "", "", "").setRangDate(null,Calendar.getInstance())
+        }).setLabel("", "", "", "", "", "").setRangDate(null, Calendar.getInstance())
                 .setType(TimePickerView.Type.YEAR_MONTH_DAY)
                 .build();
 

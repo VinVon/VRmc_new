@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,6 +33,7 @@ import com.medvision.vrmc.bean.MyPatients;
 import com.medvision.vrmc.bean.requestbody.BaseReq;
 import com.medvision.vrmc.network.ContentService;
 import com.medvision.vrmc.utils.DividerGridItemDecoration;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.view.BladeView;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
 import com.wzgiceman.rxbuslibrary.rxbus.Subscribe;
@@ -98,7 +99,7 @@ public class MyPatientActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ProgressSubscriber<List<MyPatients>>(this, o->{
-                    Log.e("----MyPatient","获取患者");
+                    MyLog.e("----MyPatient","获取患者");
                     if (myPatientsList.size() !=0){
                         myPatientsList.clear();
                     }
@@ -141,7 +142,7 @@ public class MyPatientActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void event(FreshPatientList o) {
 
-        Log.e("----MyPatient","freshPatientList");
+        MyLog.e("----MyPatient","freshPatientList");
             A = "";
             B = "";
             allSpellList.clear();
@@ -190,10 +191,10 @@ public class MyPatientActivity extends BaseActivity {
 
                 }
             }
-            Log.e("TAG",d.getName()+"=="+d.getRemark()+"=="+position);
+            MyLog.e("TAG",d.getName()+"=="+d.getRemark()+"=="+position);
             holder.line.setTag(position);
             if (d.isShowLine() && (int)holder.line.getTag() ==position){
-                Log.e("TAGhide",d.getName()+"=="+d.getRemark()+"=="+position);
+                MyLog.e("TAGhide",d.getName()+"=="+d.getRemark()+"=="+position);
                 holder.line.setVisibility(View.VISIBLE);
             }
             if (position == 0 || !d.getRealnameFirstSpell().equals(myPatientsList.get(position - 1).getRealnameFirstSpell())) {

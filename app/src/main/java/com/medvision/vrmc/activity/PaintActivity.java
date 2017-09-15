@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -34,6 +34,7 @@ import com.medvision.vrmc.imp.QueryPayient;
 import com.medvision.vrmc.presenter.LoginPresenter;
 import com.medvision.vrmc.presenter.QueryPatientPresenter;
 import com.medvision.vrmc.utils.MyArrayAdapter;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.SpUtils;
 import com.medvision.vrmc.utils.ToastCommom;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
@@ -184,7 +185,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener,
             ToastCommom.createInstance().ToastShow(PaintActivity.this, "请设置网络环境");
 
         } else {
-            Log.e("--------查询患者", phone);
+            MyLog.e("--------查询患者", phone);
             queryPatientPresenter = new QueryPatientPresenter(PaintActivity.this, priArgs);
             queryPatientPresenter.getPatientNoPhone();
         }
@@ -275,7 +276,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener,
             public void updateView(LoginInfo user) {
                 loginInfo = user;
                 token = user.getData().getToken();
-                Log.e("------------重新的token", token);
+                MyLog.e("------------重新的token", token);
                 users.setToken(token);
                 saveData(users, user);
 //                xinjingSeacher.performClick();
@@ -417,7 +418,7 @@ public class PaintActivity extends BaseActivity implements View.OnClickListener,
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.length() == 0) {
-                    Log.e("-------s=0", "zengjia" + s);
+                    MyLog.e("-------s=0", "zengjia" + s);
                     tabBarCancelTv.setText("查询");
                     clearKeywordIv.setVisibility(View.GONE);
                     if (mHistoryKeywords.size() > 0) {

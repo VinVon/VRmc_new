@@ -50,6 +50,9 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/phones"/>
         <EditText
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/hospital"
+            android:inputType="phone"
             android:layout_marginLeft="15dp"
             android:id="@+id/phonenumber"
             android:background="@null"
@@ -99,20 +102,36 @@
         android:layout_height="1dp"
         android:orientation="horizontal"
         android:background="@color/white_alpha_percent_45"></LinearLayout>
-    <TextView
-        android:id="@+id/login_help"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:text="帮助"
-        android:layout_marginTop="10dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_below="@+id/au_line3"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"/>
-
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/login_re"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/login_regist"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="@color/white_alpha_percent_45"
+            android:gravity="center"
+            android:text="立即注册"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:id="@+id/login_help"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="@color/white_alpha_percent_45"
+            android:gravity="center"
+            android:text="忘记密码"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
     <Button
-        android:layout_below="@+id/login_help"
+        android:layout_below="@+id/login_re"
         android:layout_marginTop="10dp"
         android:text="登录"
         android:layout_centerHorizontal="true"
