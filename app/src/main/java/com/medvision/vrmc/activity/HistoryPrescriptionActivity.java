@@ -18,16 +18,23 @@ import android.view.ViewStub;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cs.common.utils.ToastUtil;
+import com.cs.networklibrary.entity.NoData;
 import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
 import com.medvision.vrmc.R;
+import com.medvision.vrmc.activity.content.VRPlanActivity;
 import com.medvision.vrmc.bean.HistoryPrescriptionInfo;
+import com.medvision.vrmc.bean.PlanOfDisease;
+import com.medvision.vrmc.bean.requestbody.GetSingerPrescriptionReq;
 import com.medvision.vrmc.bean.requestbody.HistoryPrescriptionReq;
 import com.medvision.vrmc.imp.EndlessRecyclerOnScrollListener;
 import com.medvision.vrmc.network.ContentService;
 import com.medvision.vrmc.utils.DividerGridItemDecoration;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.PullToRefreshSwipeLayout;
+import com.medvision.vrmc.utils.SpUtils;
 import com.medvision.vrmc.utils.ToastCommom;
 import com.medvision.vrmc.view.Navigation;
 
@@ -36,6 +43,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -48,7 +56,7 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
     ViewStub nodataLayout;
     private String patientId;
     private ContentService consulationService;
-    private List<HistoryPrescriptionInfo> historyPrescriptionInfos = new ArrayList<>();
+    private List<PlanOfDisease> historyPrescriptionInfos = new ArrayList<>();
     private HistoryAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private int paging = 1;
@@ -59,7 +67,7 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
         setContentView(R.layout.history_prescription_activity);
         ButterKnife.bind(this);
         patientId = getIntent().getStringExtra("patientId");
-        Navigation.getInstance(this).setBack().setTitle("历史处方");
+        Navigation.getInstance(this).setBack().setTitle("历史方案");
         consulationService = HttpMethods.getInstance().getClassInstance(ContentService.class);
         initView();
         initData();
@@ -83,12 +91,13 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
     }
 
     private void initData() {
-        consulationService.requestHistoryPrescription(new HistoryPrescriptionReq(patientId, paging))
+        MyLog.e("TAG", patientId + "=" + SpUtils.getInstance().getToken());
+        consulationService.requestHistoryPlan(new HistoryPrescriptionReq(patientId, paging))
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<List<HistoryPrescriptionInfo>>(HistoryPrescriptionActivity.this, o -> {
-                    if (o.size() == 0){
+                .subscribe(new ProgressSubscriber<List<PlanOfDisease>>(HistoryPrescriptionActivity.this, o -> {
+                    if (o.size() == 0) {
                         nodataLayout.inflate();
                     }
                     if (historyPrescriptionInfos.size() != 0) {
@@ -106,12 +115,12 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
     }
 
     private void fresh() {
-        consulationService.requestHistoryPrescription(new HistoryPrescriptionReq(patientId, paging))
+        consulationService.requestHistoryPlan(new HistoryPrescriptionReq(patientId, paging))
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<List<HistoryPrescriptionInfo>>(HistoryPrescriptionActivity.this, o -> {
-                    if (o.size() == 0){
+                .subscribe(new ProgressSubscriber<List<PlanOfDisease>>(HistoryPrescriptionActivity.this, o -> {
+                    if (o.size() == 0) {
                         nodataLayout.inflate();
                     }
                     if (historyPrescriptionInfos.size() != 0) {
@@ -126,11 +135,12 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
 
 
     private void loadMore() {
-        consulationService.requestHistoryPrescription(new HistoryPrescriptionReq(patientId, paging))
+
+        consulationService.requestHistoryPlan(new HistoryPrescriptionReq(patientId, paging))
                 .map(new HttpResultFunc<>())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ProgressSubscriber<List<HistoryPrescriptionInfo>>(HistoryPrescriptionActivity.this, o -> {
+                .subscribe(new ProgressSubscriber<List<PlanOfDisease>>(HistoryPrescriptionActivity.this, o -> {
 
                     if (o.size() != 0) {
                         for (int i = 0; i < o.size(); i++) {
@@ -157,29 +167,23 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            HistoryPrescriptionInfo historyPrescriptionInfo = historyPrescriptionInfos.get(position);
-            holder.tv_date.setText(historyPrescriptionInfo.getCreatedAt());
-            if (historyPrescriptionInfo.getPayStatus() == 1) {
-                holder.tv_status.setText("未付款");
-                holder.tv_status.setTextColor(getResources().getColor(R.color.gray));
-            } else if (historyPrescriptionInfo.getPayStatus() == 4) {
-                holder.tv_status.setText("线下支付");
-                holder.tv_status.setTextColor(getResources().getColor(R.color.colorPrimary));
-            } else {
-                holder.tv_status.setText("已付款");
-                holder.tv_status.setTextColor(getResources().getColor(R.color.colorPrimary));
-            }
-            holder.tv_des.setText(historyPrescriptionInfo.getSuggestion());
-            holder.tv_contents.setText("包含" + historyPrescriptionInfo.getContents().size() + "个多媒体内容");
+            PlanOfDisease historyPrescriptionInfo = historyPrescriptionInfos.get(position);
+            holder.tv_des.setText(historyPrescriptionInfo.getName());
+            holder.tv_date.setText(historyPrescriptionInfo.getCreateAt());
+            holder.tv_status.setText(historyPrescriptionInfo.getDiseaseName());
             holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(HistoryPrescriptionActivity.this, PrescriptionDetilActivity.class);
-                    intent.putExtra("prescriptionId", historyPrescriptionInfo.getId());
+                    Intent intent = new Intent(HistoryPrescriptionActivity.this, IdeaDetilActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("content", historyPrescriptionInfo);
+                    bundle.putSerializable("type", 0);
+                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             });
         }
+
 
         @Override
         public int getItemCount() {
@@ -191,6 +195,7 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
             TextView tv_status;
             TextView tv_des;
             TextView tv_contents;
+            TextView tv_stop;
             RelativeLayout relativeLayout;
 
             public ViewHolder(View itemView) {
@@ -199,6 +204,7 @@ public class HistoryPrescriptionActivity extends AppCompatActivity implements Sw
                 tv_status = (TextView) itemView.findViewById(R.id.item_history_status);
                 tv_des = (TextView) itemView.findViewById(R.id.item_history_des);
                 tv_contents = (TextView) itemView.findViewById(R.id.item_history_contents);
+                tv_stop = (TextView) itemView.findViewById(R.id.item_history_stop);
                 relativeLayout = (RelativeLayout) itemView.findViewById(R.id.item_history);
             }
         }

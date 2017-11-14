@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.medvision.vrmc.R;
 
+import org.w3c.dom.Text;
+
 
 /**
  * Created by Administrator on 2016/3/23.
@@ -49,7 +51,7 @@ public class Navigation {
 	}
 
 	public Navigation setRight(String text, View.OnClickListener clickListener) {
-		Button bt = ((Button) mActivity.findViewById(R.id.base_header_right_bt));
+		TextView bt = ((TextView) mActivity.findViewById(R.id.base_header_right_bt));
 		bt.setText(text);
 		bt.setOnClickListener(clickListener);
 		return this;

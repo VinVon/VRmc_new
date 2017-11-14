@@ -23,10 +23,19 @@ public class HistoryPrescriptionInfo {
     private String disease;
     private String suggestion;
     private int payStatus;
+    private int status;
     private double total;
     private String createdAt;
     private String updatedAt;
     private List<ContentsBean> contents;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getId() {
         return id;

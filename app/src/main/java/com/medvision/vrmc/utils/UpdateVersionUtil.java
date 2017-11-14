@@ -7,12 +7,14 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -162,6 +164,9 @@ public class UpdateVersionUtil {
         final File file = new File(SDCardUtils.getRootDirectory()+"/updateVersion/vrmc_"+versionInfo.getData().getVersionName()+".apk");
         dialog.setCancelable(false);// 可以用“返回键”取消
         dialog.setCanceledOnTouchOutside(false);//
+        if (((Activity)context).isFinishing()){
+            return;
+        }
         dialog.show();
         View view = LayoutInflater.from(context).inflate(R.layout.version_update_dialog, null);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -229,4 +234,5 @@ public class UpdateVersionUtil {
             localException.printStackTrace();
         }
     }
+
 }

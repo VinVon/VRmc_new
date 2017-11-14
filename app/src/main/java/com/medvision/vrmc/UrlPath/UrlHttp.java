@@ -6,9 +6,9 @@ package com.medvision.vrmc.UrlPath;
 
 public class UrlHttp {
 
-    //测试地址
-    public static final String BASE_URL_EVERYTHING = "http://test.med-vision.cn/";
-    public static final String BASE_URL="http://test.med-vision.cn/api/v1/appControlDoctor";
+    //测试地址localhost:8080  10.12.254.34:8080  test.med-vision.cn
+    public static final String BASE_URL_EVERYTHING = "http://10.12.254.34:8080/";
+    public static final String BASE_URL="http://10.12.254.34:8080/api/v1/appControlDoctor";
     //正式地址
 //    public static final String BASE_URL_EVERYTHING = "http://support.med-vision.cn/";
 //    public static final String BASE_URL="http://support.med-vision.cn/api/v1/appControlDoctor";

@@ -6,10 +6,20 @@ package com.medvision.vrmc.bean;
  */
 
 public class Buser {
+    private String ContenteId;
     private boolean is;
 
-    public Buser(boolean is) {
+    public Buser(String contenteId, boolean is) {
+        ContenteId = contenteId;
         this.is = is;
+    }
+
+    public String getContenteId() {
+        return ContenteId;
+    }
+
+    public void setContenteId(String contenteId) {
+        ContenteId = contenteId;
     }
 
     public boolean is() {

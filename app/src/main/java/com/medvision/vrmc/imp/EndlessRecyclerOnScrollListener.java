@@ -3,6 +3,8 @@ package com.medvision.vrmc.imp;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.medvision.vrmc.utils.MyLog;
+
 /**
  * recycleView 加载更多接口
  * Created by raytine on 2017/5/3.
@@ -26,7 +28,6 @@ public abstract class EndlessRecyclerOnScrollListener extends
             //获取最后一个完全显示的ItemPosition
             int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
             int totalItemCount = manager.getItemCount();
-
             // 判断是否滚动到底部，并且是向右滚动
             if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast) {
                 //加载更多功能的代码

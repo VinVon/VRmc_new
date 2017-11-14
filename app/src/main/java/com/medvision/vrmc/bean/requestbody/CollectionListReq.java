@@ -7,6 +7,13 @@ package com.medvision.vrmc.bean.requestbody;
 public class CollectionListReq extends BaseReq {
 	private int paging;
 
+	public CollectionListReq() {
+	}
+
+	public CollectionListReq(int paging) {
+		this.paging = paging;
+	}
+
 	public int getPaging() {
 		return paging;
 	}

@@ -405,6 +405,10 @@ public class ModifyPatientActivity extends AppCompatActivity {
                 break;
             case 11:
                 String mAge = etAge.getText().toString();
+                if (Integer.valueOf(mAge)>=200){
+                    ToastCommom.createInstance().ToastShow(this, "年龄范围1~200岁");
+                    break;
+                }
                 if (mAge.isEmpty()){
                     ToastCommom.createInstance().ToastShow(this, "年龄不能为空");
                     break;

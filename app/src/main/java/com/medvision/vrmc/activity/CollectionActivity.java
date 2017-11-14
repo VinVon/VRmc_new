@@ -29,6 +29,7 @@ import com.medvision.vrmc.bean.requestbody.CollectContentReq;
 import com.medvision.vrmc.bean.requestbody.CollectionListReq;
 import com.medvision.vrmc.network.ContentService;
 import com.medvision.vrmc.network.UserService;
+import com.medvision.vrmc.utils.ActivityManager;
 import com.medvision.vrmc.utils.Constant;
 import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.SpUtils;
@@ -50,7 +51,7 @@ import rx.schedulers.Schedulers;
  * Created by raytine on 2017/7/20.
  */
 
-public class CollectionActivity extends AppCompatActivity {
+public class CollectionActivity extends BaseActivity {
     @BindView(R.id.collection_rv)
     XRecyclerView mCollectionRv;
     @BindView(R.id.nodata_layout)
@@ -83,9 +84,11 @@ public class CollectionActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 //                    if (o1 != null)
-                    Intent intent = new Intent(CollectionActivity.this, AddPrescriptionActivity.class);
-                    startActivity(intent);
-                    finish();
+//                    Intent intent = new Intent(CollectionActivity.this, AddPrescriptionActivity.class);
+//                    startActivity(intent);
+//                    finish();
+                    ActivityManager.getInstance().finish(CollectionActivity.class);
+                    ActivityManager.getInstance().finish(AreaActivity.class);
                 }
             });
         }else if (types == 2){

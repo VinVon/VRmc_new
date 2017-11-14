@@ -68,4 +68,17 @@ public class HomeContentReq extends BaseReq {
 	public void setSortOrder(String sortOrder) {
 		this.sortOrder = sortOrder;
 	}
+
+	@Override
+	public String toString() {
+		return "HomeContentReq{" +
+				"diseaseId='" + diseaseId + '\'' +
+				", type='" + type + '\'' +
+				", therapyId='" + therapyId + '\'' +
+				", paging=" + paging +
+				", keyword='" + keyword + '\'' +
+				", sortName='" + sortName + '\'' +
+				", sortOrder='" + sortOrder + '\'' +
+				'}';
+	}
 }

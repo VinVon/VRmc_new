@@ -57,7 +57,7 @@ import rx.schedulers.Schedulers;
  * Created by raytine on 2017/7/11.
  */
 
-public class AddPrescriptionActivity extends AppCompatActivity implements FavoriteStationListViewAdapter.SetClick {
+public class AddPrescriptionActivity extends BaseActivity implements FavoriteStationListViewAdapter.SetClick {
     @BindView(R.id.prescription_et1)
     EditText prescriptionEt1;
     @BindView(R.id.prescription_et2)

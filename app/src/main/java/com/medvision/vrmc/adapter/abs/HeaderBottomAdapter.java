@@ -18,6 +18,8 @@ import com.medvision.vrmc.activity.AreaActivity;
 import com.medvision.vrmc.activity.CetificationActivity0;
 import com.medvision.vrmc.activity.MyPatientActivity;
 import com.medvision.vrmc.activity.WebViewActivity;
+import com.medvision.vrmc.activity.content.VRAreaActivity;
+import com.medvision.vrmc.activity.content.VRPlanActivity;
 import com.medvision.vrmc.bean.NewsInfo;
 import com.medvision.vrmc.utils.Constant;
 import com.medvision.vrmc.utils.SpUtils;
@@ -203,11 +205,11 @@ public class HeaderBottomAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
             ((HeaderViewHolder) holder).vrContent.setOnClickListener(v->{
-                mContext.startActivity(new Intent(mContext, AreaActivity.class));
+                mContext.startActivity(new Intent(mContext, VRAreaActivity.class));
             });
             ((HeaderViewHolder) holder).vrHandbook.setOnClickListener(v->{
-                Intent intent = new Intent(mContext, WebViewActivity.class);
-                intent.putExtra("url", UrlHttp.BASE_URL_EVERYTHING + "/h5/help");
+                Intent intent = new Intent(mContext, VRPlanActivity.class);
+//                intent.putExtra("url", UrlHttp.BASE_URL_EVERYTHING + "/h5/help");
                 mContext.startActivity(intent);
             });
             ((HeaderViewHolder) holder).more.setOnClickListener(v->{

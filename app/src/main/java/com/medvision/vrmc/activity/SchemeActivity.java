@@ -26,6 +26,7 @@ import com.medvision.vrmc.bean.SingerSchemeInfo;
 import com.medvision.vrmc.bean.requestbody.BaseReq;
 import com.medvision.vrmc.bean.requestbody.schemedeleteReq;
 import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.ActivityManager;
 import com.medvision.vrmc.utils.RecycleViewDivider;
 import com.medvision.vrmc.utils.ToastCommom;
 import com.medvision.vrmc.view.Navigation;
@@ -45,7 +46,7 @@ import rx.schedulers.Schedulers;
  * Created by raytine on 2017/8/23.
  */
 
-public class SchemeActivity extends AppCompatActivity {
+public class SchemeActivity extends BaseActivity {
     @BindView(R.id.recycle_scheme)
     RecyclerView recycleScheme;
     private ContentService contentService;
@@ -134,9 +135,8 @@ public class SchemeActivity extends AppCompatActivity {
                         RxBus.getDefault().post(content);
 
                     }
-                    Intent intent = new Intent(SchemeActivity.this, AddPrescriptionActivity.class);
-                    startActivity(intent);
-                    finish();
+                    ActivityManager.getInstance().finish(SchemeActivity.class);
+                    ActivityManager.getInstance().finish(AreaActivity.class);
                 }
             });
             }else{//编辑我的方案

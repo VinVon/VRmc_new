@@ -16,6 +16,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -32,11 +33,9 @@ import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
 import com.medvision.vrmc.UrlPath.UrlHttp;
 import com.medvision.vrmc.activity.AdminInfo;
-import com.medvision.vrmc.activity.AreaActivity;
 import com.medvision.vrmc.activity.BaseActivity;
 import com.medvision.vrmc.activity.CetificationActivity0;
 import com.medvision.vrmc.activity.ModifyPassActivity;
-import com.medvision.vrmc.activity.MyPatientActivity;
 import com.medvision.vrmc.activity.WebViewActivity;
 import com.medvision.vrmc.adapter.abs.HeaderBottomAdapter;
 import com.medvision.vrmc.bean.CertifiStatus;
@@ -66,10 +65,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.nereo.multi_image_selector.view.CircleTransform;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener,SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.img_more)
     ImageView imgMore;
@@ -80,6 +80,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @BindView(R.id.recycle_main)
     RecyclerView recycleMain;
+    @BindView(R.id.main_swipe)
+    SwipeRefreshLayout mainSwipe;
     private LinearLayoutManager layoutManager;
     private HeaderBottomAdapter adapter;
     private String token;
@@ -133,10 +135,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ProgressSubscriber<>(this,o->{
+                .subscribe(new ProgressSubscriber<>(this, o -> {
                     adapter.setNewsInfo(o);
                 }));
-
+        if (mainSwipe.isRefreshing()){
+            mainSwipe.setRefreshing(false);
+        }
     }
 
     private void requestStatus() {
@@ -145,15 +149,36 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ProgressSubscriber<CertificationStatus>(this, o -> {
-                    CertifiStatus userStatus = SpUtils.getInstance().getUserStatus();
-                    if (userStatus != null) {
-                        userStatus.setStatus(o.getStatus());
-                        SpUtils.getInstance().saveUserStatus(userStatus);
-                        showStatusDialog(o.getStatus());
+                .subscribe(new Subscriber<CertificationStatus>() {
+                    @Override
+                    public void onCompleted() {
+
                     }
 
-                }));
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CertificationStatus o) {
+                        CertifiStatus userStatus = SpUtils.getInstance().getUserStatus();
+                        if (userStatus != null) {
+                            userStatus.setStatus(o.getStatus());
+                            SpUtils.getInstance().saveUserStatus(userStatus);
+                            showStatusDialog(o.getStatus());
+                        }
+                    }
+                });
+//                .subscribe(new ProgressSubscriber<CertificationStatus>(this, o -> {
+//                    CertifiStatus userStatus = SpUtils.getInstance().getUserStatus();
+//                    if (userStatus != null) {
+//                        userStatus.setStatus(o.getStatus());
+//                        SpUtils.getInstance().saveUserStatus(userStatus);
+//                        showStatusDialog(o.getStatus());
+//                    }
+//
+//                }));
     }
 
     /**
@@ -166,6 +191,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private SweetAlertDialog sweetAlertDialog2;
     private SweetAlertDialog sweetAlertDialog3;
     private SweetAlertDialog sweetAlertDialog4;
+
     private void showStatusDialog(int status) {
         MyLog.e("TAG", "认证状态" + status);
         switch (status) {
@@ -174,7 +200,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 userStatus.setIstrue(false);
                 SpUtils.getInstance().saveUserStatus(userStatus);
                 name2.setText("未认证");
-                 sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                sweetAlertDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("认证状态").setContentText("未认证")
                         .setCancelText("取消")
                         .setConfirmText("认证")
@@ -197,7 +223,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 2://待审核
                 name2.setText("待审核");
-                sweetAlertDialog2=  new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                sweetAlertDialog2 = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("认证状态").setContentText("待审核")
                         .setConfirmText("确定")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -210,7 +236,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
             case 3://认证失败
                 name2.setText("认证失败");
-                sweetAlertDialog3= new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                sweetAlertDialog3 = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("认证状态").setContentText("认证失败")
                         .setCancelText("取消")
                         .setConfirmText("重新认证")
@@ -235,7 +261,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 requestHeadImage();
                 if (userStatuss.istrue()) {
                 } else {
-                    sweetAlertDialog4 =   new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    sweetAlertDialog4 = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("认证状态").setContentText("通过")
                             .setConfirmText("确定")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -260,16 +286,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onPause() {
         super.onPause();
-        if (sweetAlertDialog!= null && sweetAlertDialog.isShowing()){
+        if (sweetAlertDialog != null && sweetAlertDialog.isShowing()) {
             sweetAlertDialog.dismiss();
         }
-        if (sweetAlertDialog2!= null && sweetAlertDialog2.isShowing()){
+        if (sweetAlertDialog2 != null && sweetAlertDialog2.isShowing()) {
             sweetAlertDialog2.dismiss();
         }
-        if (sweetAlertDialog3!= null && sweetAlertDialog3.isShowing()){
+        if (sweetAlertDialog3 != null && sweetAlertDialog3.isShowing()) {
             sweetAlertDialog3.dismiss();
         }
-        if (sweetAlertDialog4!= null && sweetAlertDialog4.isShowing()){
+        if (sweetAlertDialog4 != null && sweetAlertDialog4.isShowing()) {
             sweetAlertDialog4.dismiss();
         }
     }
@@ -279,16 +305,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new ProgressSubscriber<CertificationInfo>(this, o -> {
-                    Picasso.with(MainActivity.this).load(o.getHeadPictureUrl()).transform(new CircleTransform()).fit().into(imgHead);
-                    name1.setText(o.getRealname());
-                    name2.setText(o.getHospital());
-                    LoginInfo login = SpUtils.getInstance().getLogin();
-                    LoginInfo.DataBean data = login.getData();
-                    data.setHospital(o.getHospital());
-                    login.setData(data);
-                    SpUtils.getInstance().saveLogin(login);
-                }));
+                .subscribe(new Subscriber<CertificationInfo>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(CertificationInfo o) {
+//                    File file = new File(SDCardUtils.getRootDirectory()+"/updateVersion/img");
+//                    if (!file.exists()) {
+//                        file.mkdirs();
+//                    }
+//                    long maxSize = Runtime.getRuntime().maxMemory() / 8;//设置图片缓存大小为运行时缓存的八分之一
+//                    OkHttpClient client = new OkHttpClient.Builder()
+//                            .cache(new Cache(file, maxSize))
+//                            .build();
+//                    Picasso picasso = new Picasso.Builder(this).downloader(
+//                            new OkHttp3Downloader(client)).build();
+                        Picasso.with(MainActivity.this).load(o.getHeadPictureUrl()).transform(new CircleTransform()).fit().into(imgHead);
+                        name1.setText(o.getRealname());
+                        name2.setText(o.getHospital());
+                        LoginInfo login = SpUtils.getInstance().getLogin();
+                        LoginInfo.DataBean data = login.getData();
+                        data.setHospital(o.getHospital());
+                        login.setData(data);
+                        SpUtils.getInstance().saveLogin(login);
+                    }
+                });
+//                .subscribe(new ProgressSubscriber<CertificationInfo>(this, o -> {
+//
+//                }));
     }
 
     private void initView() {
@@ -307,6 +359,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycleMain.setLayoutManager(layoutManager);
         recycleMain.setAdapter(adapter = new HeaderBottomAdapter(this));
+        mainSwipe.setOnRefreshListener(this);
     }
 
     /**
@@ -398,16 +451,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //        }
 //    };
 
-
+    /**
+     * 侧滑菜单
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_info:
-               if (SpUtils.getInstance().getUserStatus().getStatus() == 4){
-                   startActivity(new Intent(MainActivity.this, AdminInfo.class));
-               }else {
-                   ToastUtil.showMessage(this,"未认证成功,无法查看个人信息...");
-               }
+                if (SpUtils.getInstance().getUserStatus().getStatus() == 4) {
+                    startActivity(new Intent(MainActivity.this, AdminInfo.class));
+                } else {
+                    ToastUtil.showMessage(this, "未认证成功,无法查看个人信息...");
+                }
                 break;
             case R.id.nav_camera://修改密码
                 startActivity(new Intent(MainActivity.this, ModifyPassActivity.class));
@@ -471,34 +528,41 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //                            new String[]{Manifest.permission.READ_PHONE_STATE},
 //                            1);
 //                }else {
-                    //权限已经被授予，在这里直接写要执行的相应方法即可
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("联系客服").setContentText("账号问题请联系客服处理!" + "\n" + "客服电话:4001667866")
-                            .setCancelText("取消")
-                            .setConfirmText("确定")
-                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                }
-                            })
-                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismiss();
-                                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:4001667866"));
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                }
-                            }).show();
+                //权限已经被授予，在这里直接写要执行的相应方法即可
+                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("联系客服").setContentText("账号问题请联系客服处理!" + "\n" + "客服电话:4001667866")
+                        .setCancelText("取消")
+                        .setConfirmText("确定")
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                            }
+                        })
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:4001667866"));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }).show();
 //                }
-
+                break;
+            case R.id.nav_kangfu:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("url", UrlHttp.BASE_URL_EVERYTHING + "/h5/help");
+                startActivity(intent);
                 break;
 
         }
         return false;
     }
 
+    /**
+     * 升级版本
+     */
     private void updateVersion() {
         Map<String, String> priArgsss = new HashMap<>();
         priArgsss.put("systemVersion", "2");
@@ -517,13 +581,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     case UpdateStatus.YES:
                         if (ContextCompat.checkSelfPermission(MainActivity.this,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED)
-                        {
+                                != PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     1);
                             updateVersion();
-                        }else {
+                        } else {
                             //弹出更新提示
                             UpdateVersionUtil.showDialog(MainActivity.this, versionInfo);
                             clearUpateFile(MainActivity.this);
@@ -566,4 +629,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
+    @Override
+    public void onRefresh() {
+        initData();
+    }
 }

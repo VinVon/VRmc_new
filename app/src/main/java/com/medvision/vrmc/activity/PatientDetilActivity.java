@@ -14,10 +14,14 @@ import com.cs.networklibrary.http.HttpMethods;
 import com.cs.networklibrary.http.HttpResultFunc;
 import com.cs.networklibrary.subscribers.ProgressSubscriber;
 import com.medvision.vrmc.R;
+import com.medvision.vrmc.activity.content.VRPlanActivity;
 import com.medvision.vrmc.bean.FreshPatientList;
 import com.medvision.vrmc.bean.MyPatientDetil;
+import com.medvision.vrmc.bean.requestbody.BaseReq;
 import com.medvision.vrmc.bean.requestbody.Patientreq;
 import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.ActivityManager;
+import com.medvision.vrmc.utils.MyLog;
 import com.medvision.vrmc.utils.SpUtils;
 import com.medvision.vrmc.utils.ToastCommom;
 import com.medvision.vrmc.view.LoveLayout;
@@ -35,7 +39,7 @@ import rx.schedulers.Schedulers;
  * Created by raytine on 2017/7/17.
  */
 
-public class PatientDetilActivity extends AppCompatActivity {
+public class PatientDetilActivity extends BaseActivity {
     @BindView(R.id.xinjing_name)
     TextView xinjingName;
     @BindView(R.id.xinjing_markName)
@@ -60,8 +64,6 @@ public class PatientDetilActivity extends AppCompatActivity {
     TextView xinjingPhone;//病历号
     @BindView(R.id.xinjing_medical_card_number)
     TextView xinjingMedicalCardNumber;
-    @BindView(R.id.img_add_prescription)
-    Button imgAddPrescription;
     @BindView(R.id.love_view)
     LoveLayout loveView;
     @BindView(R.id.xinjing_age)
@@ -84,9 +86,19 @@ public class PatientDetilActivity extends AppCompatActivity {
         Navigation.getInstance(this).setBacks(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PatientDetilActivity.this, MyPatientActivity.class));
+                MyLog.e("--------","点击");
+                ActivityManager.getInstance().finish(PatientDetilActivity.class);
+                ActivityManager.getInstance().finish(AddPatientActivity.class);
             }
-        }).setTitle("患者详情");
+        }).setTitle("患者详情").setRight("开处方", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PatientDetilActivity.this, VRPlanActivity.class);
+                intent.putExtra("type", 1);
+                intent.putExtra("patientId", patientId);
+                startActivity(intent);
+            }
+        });
         patientId = getIntent().getStringExtra("patientId");
         contentService = HttpMethods.getInstance().getClassInstance(ContentService.class);
         initData();
@@ -153,7 +165,7 @@ public class PatientDetilActivity extends AppCompatActivity {
 
     @OnClick({R.id.xinjing_name, R.id.xinjing_markName, R.id.xinjing_phone, R.id.xinjing_disease,
             R.id.xinjing_phonenumber, R.id.xinjing_sex, R.id.xinjing_born, R.id.xinjing_erducation,
-            R.id.xinjing_marry, R.id.xinjing_medical_card_number, R.id.img_add_prescription, R.id.xingjing_history,R.id.xinjing_age})
+            R.id.xinjing_marry, R.id.xinjing_medical_card_number, R.id.xingjing_history,R.id.xinjing_age})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.xinjing_name:
@@ -189,11 +201,12 @@ public class PatientDetilActivity extends AppCompatActivity {
             case R.id.xinjing_age:
                 changeInfos(11);
                 break;
-            case R.id.img_add_prescription:
-                Intent intent = new Intent(PatientDetilActivity.this, AddPrescriptionActivity.class);
-                intent.putExtra("patientId", patientId);
-                startActivityForResult(intent, REQUEST_CODES);
-                break;
+//            case R.id.img_add_prescription:
+////                Intent intent = new Intent(PatientDetilActivity.this, AddPrescriptionActivity.class);
+////                intent.putExtra("patientId", patientId);
+////                startActivityForResult(intent, REQUEST_CODES);
+//
+//                break;
             case R.id.xingjing_history:
                 Intent intents = new Intent(PatientDetilActivity.this, HistoryPrescriptionActivity.class);
                 intents.putExtra("patientId", patientId);
@@ -307,7 +320,9 @@ public class PatientDetilActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            startActivity(new Intent(PatientDetilActivity.this, MyPatientActivity.class));
+//            startActivity(new Intent(PatientDetilActivity.this, MyPatientActivity.class));
+            ActivityManager.getInstance().finish(PatientDetilActivity.class);
+            ActivityManager.getInstance().finish(AddPatientActivity.class);
         }
         return true;
     }

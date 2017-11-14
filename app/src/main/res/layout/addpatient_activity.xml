@@ -107,10 +107,10 @@
                 android:background="@color/grays"></LinearLayout>
             <!-- 年龄-->
             <LinearLayout
-                android:paddingLeft="4dp"
                 style="@style/patient_items"
                 >
                 <TextView
+                    android:drawableLeft="@mipmap/star"
                     style="@style/add_patient_style"
                     android:text="年        龄"/>
                 <EditText

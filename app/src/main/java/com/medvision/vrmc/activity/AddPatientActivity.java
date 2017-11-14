@@ -41,7 +41,7 @@ import rx.schedulers.Schedulers;
  * Created by raytine on 2017/7/11.
  */
 
-public class AddPatientActivity extends AppCompatActivity {
+public class AddPatientActivity extends BaseActivity {
     //    @BindView(R.id.add_patient_back)
 //    ImageView addPatientBack;
 //    @BindView(R.id.add_patient_next)
@@ -116,9 +116,16 @@ public class AddPatientActivity extends AppCompatActivity {
 //                    ToastUtil.showMessage(AddPatientActivity.this, "出生日期不能为空");
 //                    return;
 //                }
-                if (etAge.getText() == null){
-                    age = 0;
-                }else {age =Integer.valueOf(etAge.getText().toString());}
+                if (etAge.getText() == null || etAge.getText().toString().equals("")){
+                    ToastUtil.showMessage(AddPatientActivity.this, "年龄不能为空");
+                    return;
+                }else {
+                    age =Integer.valueOf(etAge.getText().toString());
+                    if (age>=200){
+                        ToastUtil.showMessage(AddPatientActivity.this, "年龄范围1~200岁");
+                        return ;
+                    }
+                }
 
 
                 disease = tvDisease.getText().toString();

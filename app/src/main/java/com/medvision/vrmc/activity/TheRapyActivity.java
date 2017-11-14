@@ -36,7 +36,9 @@ import com.medvision.vrmc.bean.requestbody.HomeContentReq;
 import com.medvision.vrmc.imp.EndlessRecyclerOnScrollListener;
 import com.medvision.vrmc.imp.MyClick;
 import com.medvision.vrmc.network.ContentService;
+import com.medvision.vrmc.utils.ActivityManager;
 import com.medvision.vrmc.utils.MyLog;
+import com.medvision.vrmc.utils.SpUtils;
 import com.medvision.vrmc.view.Navigation;
 import com.squareup.picasso.Picasso;
 import com.wzgiceman.rxbuslibrary.rxbus.RxBus;
@@ -56,7 +58,7 @@ import rx.schedulers.Schedulers;
  * Created by raytine on 2017/7/18.
  */
 
-public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class TheRapyActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.base_header_back_iv)
     ImageView baseHeaderBackIv;
@@ -83,9 +85,9 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
     //    private ArrayList<String> mList = new ArrayList<>();
 //    LinearLayoutManager layoutManager;
 //    SelectAdapter mAdapter;
-    private String diseaseId;
-    private String therapyId;
-    private String keyword;
+    private String diseaseId = null;
+    private String therapyId = null;
+    private String keyword = null;
     private int page = 1;
     private int priceClick = 1;
     private int timeClick = 1;
@@ -140,11 +142,11 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
                 @Override
                 public void onClick(View v) {
 //                    if (o1 != null)
-
-                    Intent intent = new Intent(TheRapyActivity.this, AddPrescriptionActivity.class);
-                    startActivity(intent);
-                    finish();
-
+                    ActivityManager.getInstance().finish(TheRapyActivity.class);
+                    ActivityManager.getInstance().finish(AreaActivity.class);
+//                    Intent intent = new Intent(TheRapyActivity.this, AddPrescriptionActivity.class);
+//                    startActivity(intent);
+//                    finish();
                 }
             });
         }
@@ -274,7 +276,7 @@ public class TheRapyActivity extends AppCompatActivity implements SwipeRefreshLa
                 h.setSortName(sortName);
                 h.setSortOrder(sortOrder);
                 h.setKeyword(keyword);
-                MyLog.e("----jiazai", "page=" + page);
+                MyLog.e("----jiazai", "page=" +h.toString()+"token +"+ SpUtils.getInstance().getToken());
                 simulateLoadMoreData(h);
             }
         });

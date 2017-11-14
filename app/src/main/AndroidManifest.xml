@@ -69,14 +69,12 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.AddPrescriptionActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.AreaActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MyPatientActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.PatientDetilActivity"
@@ -126,6 +124,14 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.SchemeModifyActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.content.VRPlanActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.IdeaDetilActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.content.VRAreaActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.content.SearchrapyActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
     </application>
 
 </manifest>

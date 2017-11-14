@@ -68,7 +68,7 @@ public class ImageViewActivity extends AppCompatActivity {
     private ContentService contentService;
     private String contentId;
     List images = new ArrayList();
-    private int type; //1为开处方选择，0为收藏,2为常用场景过来的
+    private int isResult; //1为开处方选择，0为收藏,2为常用场景过来的
     private boolean selecter;
     private String collextState;//收藏状态
     private String description;
@@ -79,27 +79,18 @@ public class ImageViewActivity extends AppCompatActivity {
         setContentView(R.layout.imageview_activity);
         ButterKnife.bind(this);
         Navigation.getInstance(this).setBack().setTitle("内容详情");
-         /*註冊*/
-        RxBus.getDefault().register(this);
         contentService = HttpMethods.getInstance().getClassInstance(ContentService.class);
         contentId = getIntent().getStringExtra("contentId");
-        type = getIntent().getIntExtra("types", 0);
-        if (type == 1) {
-            selecter = getIntent().getBooleanExtra("selecter", false);
-        }
+        isResult = getIntent().getIntExtra("forresult",0);
         initView();
-
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // TODO Auto-generated method stub
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 view.loadUrl(url);
-//                Intent intent = new Intent(WebViewActivity.this,WebViewActivity.class);
-//                intent.putExtra("url",url);
-//                startActivity(intent);
                 return true;
             }
         });
@@ -113,38 +104,9 @@ public class ImageViewActivity extends AppCompatActivity {
                 .subscribe(new ProgressSubscriber<SingerContentInfo>(this, o -> {
                     collextState = o.getIsCollected();
                     description = o.getDescription();
-                    if (images.size() != 0) {
-                        images.clear();
-                    }
-                    String[] split = o.getExt().getContent().split(",");
-                    for (int i = 0; i < split.length; i++) {
-                        images.add(split[i]);
-                        MyLog.e("---imageviewactivity", split[i]);
-                    }
-                    Picasso.with(this).load(o.getCoverPic()).fit().into(banner);
-                    vrVideoTitleTv.setText(o.getName());
-                    vrVideoPlayTimesTv.setText("使用指数 :" + o.getClicks());
-                    vrVideoDateTv.setText(o.getCreatedAt());
-                    vrVideoNameTv.setText(o.getDisease() + "-" + o.getTherapy() + "-" + o.getTypeName());
-                    vrVideoContentTv.setText("点击查看详情");
-                    vrVideoContentTv.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-                    vrVideoContentTv.getPaint().setAntiAlias(true);//抗锯齿
-//                    if (o.getIsCollected().equals("1")) {
-//                        vrVideoCollectIv.setSelected(true);
-//                    } else {
-//                        vrVideoCollectIv.setSelected(false);
-//                    }
-                    if (type == 1) {//开处方界面过来的，和收藏没关系
-                        if (selecter) {
-                            tvAdd.setBackground(getResources().getDrawable(R.color.gray));
-                            tvAdd.setText("已加入");
-
-                        } else {
-                            tvAdd.setBackground(getResources().getDrawable(R.color.colorPrimary));
-                            tvAdd.setText("加入");
-                        }
-                    } else if (type == 2) {
-                        {
+                        if (isResult == 1){
+                            tvAdd.setText("选择");
+                        }else{
                             if (o.getIsCollected().equals("1")) {
                                 tvAdd.setBackground(getResources().getDrawable(R.color.gray));
                                 tvAdd.setText("已加入");
@@ -153,116 +115,58 @@ public class ImageViewActivity extends AppCompatActivity {
                                 tvAdd.setText("加入");
                             }
                         }
-                    } else {
-                        if (o.getIsCollected().equals("1")) {
-                            tvAdd.setBackground(getResources().getDrawable(R.color.gray));
-                            tvAdd.setText("已加入");
-                        } else {
-                            tvAdd.setBackground(getResources().getDrawable(R.color.colorPrimary));
-                            tvAdd.setText("加入");
-                        }
-                    }
                     webView.loadUrl(UrlHttp.BASE_URL_EVERYTHING + o.getDescription());
                 }));
 
-
-//        vrVideoContentTv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ImageViewActivity.this, WebViewActivity.class);
-//                intent.putExtra("url", Constant.H5_HEADER + description);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     @OnClick({R.id.tv_add})
     public void OnCliCk(View v) {
         switch (v.getId()) {
             case R.id.tv_add:
-                if (type == 1) {//开处方界面过来的，和收藏没关系
-                    Intent intent = new Intent();
-                    if (selecter) {
-                        tvAdd.setBackground(getResources().getDrawable(R.color.colorPrimary));
-                        tvAdd.setText("加入");
-                        selecter = false;
-                        intent.putExtra("is", selecter);
-                        setResult(102, intent);
+                    if (isResult == 1){
+                        setResult(1000);
                         finish();
-                    } else {
-                        tvAdd.setBackground(getResources().getDrawable(R.color.gray));
-                        tvAdd.setText("已加入");
-                        selecter = true;
-                        intent.putExtra("is", selecter);
-                        setResult(102, intent);
-                        finish();
+                    }else {
+                        if (collextState.equals("1")) {
+                            contentService.collectContentCancel(new CollectContentReq(contentId))
+                                    .map(new HttpResultFunc<>())
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new ProgressSubscriber<NoData>(ImageViewActivity.this, o -> {
+                                        collextState = "0";
+                                        tvAdd.setBackground(getResources().getDrawable(R.color.colorPrimary));
+                                        tvAdd.setText("加入");
+                                        ToastUtil.showMessage(ImageViewActivity.this, "取消收藏成功");
+                                        selecter = false;
+                                        RxBus.getDefault().post(new Buser(contentId,selecter));
+                                    }));
+                        } else {
+                            contentService.collectContent(new CollectContentReq(contentId))
+                                    .map(new HttpResultFunc<>())
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new ProgressSubscriber<NoData>(ImageViewActivity.this, o -> {
+                                        collextState = "1";
+                                        tvAdd.setBackground(getResources().getDrawable(R.color.gray));
+                                        tvAdd.setText("已加入");
+                                        ToastUtil.showMessage(ImageViewActivity.this, "收藏成功");
+                                        selecter = true;
+                                        RxBus.getDefault().post(new Buser(contentId,selecter));
+                                    }));
+                        }
                     }
-                } else if (type == 2) {//常用场景
-                    if (collextState.equals("1")) {
-                        contentService.collectContentCancel(new CollectContentReq(contentId))
-                                .map(new HttpResultFunc<>())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new ProgressSubscriber<NoData>(ImageViewActivity.this, o -> {
-                                    ToastUtil.showMessage(ImageViewActivity.this, "取消收藏成功");
-                                    setResult(102);
-                                    finish();
-                                }));
-                    } else {
-                        contentService.collectContent(new CollectContentReq(contentId))
-                                .map(new HttpResultFunc<>())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new ProgressSubscriber<NoData>(ImageViewActivity.this, o -> {
-                                    ToastUtil.showMessage(ImageViewActivity.this, "收藏成功");
-                                    setResult(102);
-                                    finish();
-                                }));
-                    }
-                } else {
-                    if (collextState.equals("1")) {
-                        contentService.collectContentCancel(new CollectContentReq(contentId))
-                                .map(new HttpResultFunc<>())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new ProgressSubscriber<NoData>(ImageViewActivity.this, o -> {
-                                    collextState = "0";
-                                    tvAdd.setBackground(getResources().getDrawable(R.color.colorPrimary));
-                                    tvAdd.setText("加入");
-                                    ToastUtil.showMessage(ImageViewActivity.this, "取消收藏成功");
-                                    selecter = false;
-                                    RxBus.getDefault().post(new Buser(selecter));
-                                }));
-                    } else {
-                        contentService.collectContent(new CollectContentReq(contentId))
-                                .map(new HttpResultFunc<>())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new ProgressSubscriber<NoData>(ImageViewActivity.this, o -> {
-                                    collextState = "1";
-                                    tvAdd.setBackground(getResources().getDrawable(R.color.gray));
-                                    tvAdd.setText("已加入");
-                                    ToastUtil.showMessage(ImageViewActivity.this, "收藏成功");
-                                    selecter = true;
-                                    RxBus.getDefault().post(new Buser(selecter));
-                                }));
-                    }
-
-                }
                 break;
         }
     }
 
     @Override
     protected void onPause() {
-
         super.onPause();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.getDefault().unRegister(this);
     }
 }

@@ -10,6 +10,8 @@ import com.cs.common.utils.RxBus;
 import com.cs.networklibrary.entity.SubscriptionLogout;
 
 import rx.Subscription;
+
+import com.medvision.vrmc.utils.ActivityManager;
 import com.medvision.vrmc.utils.ExitAppReceiver;
 import com.medvision.vrmc.utils.SpUtils;
 
@@ -27,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerExitReceiver();
+        ActivityManager.getInstance().attach(this);
         mSubscription = mRxBus.toObserverable(SubscriptionLogout.class)
                 .subscribe(subscriptionLogout -> {
                             SpUtils instance = SpUtils.getInstance();
@@ -58,6 +61,7 @@ public class BaseActivity extends AppCompatActivity {
         if (!mSubscription.isUnsubscribed()) {
             mSubscription.unsubscribe();
         }
+        ActivityManager.getInstance().deAttach(this);
         super.onDestroy();
         unRegisterExitReceiver();
     }
