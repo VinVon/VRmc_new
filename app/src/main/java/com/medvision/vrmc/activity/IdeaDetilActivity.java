@@ -202,12 +202,16 @@ public class IdeaDetilActivity extends BaseActivity {
                                 Intent intent = new Intent(IdeaDetilActivity.this, VRAreaActivity.class);
                                 intent.putExtra("forresult", 1);
                                 startActivityForResult(intent, REQUEST_CODE);
+                                v.setSelected(false);
+                                v.setTextColor(getResources().getColor(R.color.black));
                             }
                         })
                         .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 sweetAlertDialog.dismiss();
+                                v.setSelected(false);
+                                v.setTextColor(getResources().getColor(R.color.black));
                             }
                         }).show();
             }
